@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    background-image: url('../img/header.webp');
+    background-size: cover;
+    background-position: top;
+    transition: height 0.03s ease;
+    z-index: 1000;
+    border-bottom: 4px solid white;
+}
+.avatar {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid white;
+    background-image: url('../img/adrian.jpg');
+    background-size: cover;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    margin-top: 300px; /* Initially set to header height */
+}
+.parallax {
+    position: relative;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+.about {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    color: #333 !important;
+    margin: 100px 330px;
+}
+.content-section {
+    padding: 50px 20px;
+    text-align: center;
+    color: white;
+}
+.content-section h2 {
+    margin-bottom: 20px;
+}
+.content-section p {
+    max-width: 600px;
+    margin: 0 auto;
+}
+.projects, .blog {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.project, .blog-post {
+    width: 30%;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    color: #333;
+}
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+footer a {
+    color: white;
+    margin: 0 10px;
+}
