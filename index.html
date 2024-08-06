@@ -1,13 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-    <meta charset="UTF-8">
-    <title>Adrian</title>
-    </head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Adrian Barrera - Developer & Communications Specialist</title>
+        <meta name="description" content="Adrian Barrera is a developer and Communications Specialist specializing in agile methodologies, Salesforce, frontend development, and AWS. Discover projects, read the blog, and get in touch.">
+        <meta name="keywords" content="Developer, Communications Specialist, Agile, Salesforce, Frontend Development, AWS, Technology, Programming, Software Development, Cloud Computing, Web Development, Media Studies, Communication">
+        <meta name="author" content="Adrian Barrera">
+        <meta name="robots" content="index, follow">
+        <!-- <meta name="google-site-verification" content="verification_token">  -->
 
-    <body>
-        <header id="app-header"></header>
-        <script async src="js/header.js"></script>  
-    Sitio en Construcci&oacute;n
-    </body>
+        <!-- Favicon -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="http://adrian.uy/">
+        <meta property="og:title" content="Adrian Barrera - Developer & Communications Specialist">
+        <meta property="og:description" content="Adrian Barrera is a developer and Communications Specialist specializing in agile methodologies, Salesforce, frontend, backend development, Cybersecurity and AWS. Discover projects, read the blog, and get in touch.">
+        <meta property="og:image" content="http://adrian.uy/img/adrian.jpg">
+        <meta property="og:image:alt" content="Adrian Barrera">
+    
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="http://adrian.uy/">
+        <meta property="twitter:title" content="Adrian Barrera - Developer & Communications Specialist">
+        <meta property="twitter:description" content="Adrian Barrera is a developer and Communications Specialist specializing in agile methodologies, Salesforce, frontend, backend development, Cybersecurity and AWS. Discover projects, read the blog, and get in touch.">
+        <meta property="twitter:image" content="http://adrian.uy/img/adrian.jpg">
+        <meta property="twitter:image:alt" content="Adrian Barrera">
+
+        <link rel="stylesheet" href="css/styles.css">
+
+        
+        <!-- Structured Data / Schema Markup -->
+        <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Person",
+            "name": "Adrian Barrera",
+            "url": "http://adrian.uy/",
+            "image": "http://adrian.uy/img/adrian.jpg",
+            "sameAs": [
+                "http://www.linkedin.com/in/adrian-barrera",
+                "http://twitter.com/sfadrianuy",
+                "http://github.com/sfadrianuy"
+            ],
+            "jobTitle": "Developer & Communications Specialist",
+            "worksFor": {
+                "@type": "Organization",
+                "name": "Altimetrik"
+            },
+            "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "Universidad de la Republica"
+            },
+            "description": "Adrian Barrera is a developer and Communications Specialist specializing in agile methodologies, Salesforce, frontend, backend development, cybersecurity and AWS. Discover projects, read the blog, and get in touch.",
+            "knowsAbout": ["Agile Methodologies", "Salesforce", "Frontend Development", "AWS", "Cloud Computing", "Web Development", "Media Studies", "Communication"]
+        }
+        </script>
+    </head>
+        
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adrian Barrera - Developer & Communications Specialist</title>
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="avatar" id="avatar"></div>
+    </header>
+
+    <div class="parallax content" style="background-image: url('img/002.webp');" id="content">
+        <div class="about content-section" id="about">
+            <h2>About Me</h2>
+            <p>Hi, I'm Adrian, a passionate Developer and Communication Specialist with a background in Communication Science and Computer Engenieeering. With over 14 years of profesional experience, I specialize in Agile Development.</p>
+            <p>I have had the opportunity to work on Audiovisual, Marketing, Advertising and Fintech projects, which have helped me develop a diverse skill set.</p>
+            <p>I hold a BS in Communications from Universidad de la Rep&uacute;blica.</p>
+            <p>In addition to my professional work, I am passionate about Photography, which often inspire my creative projects. as you can see from all the background photos here</p>
+            <p>Thank you for visiting my website, and I look forward to connecting with you!</p>
+        </div>
+    </div>
+
+    <div class="parallax" style="background-image: url('img/009.webp');">
+        <div class="content-section" id="projects">
+            <h2>Featured Work</h2>
+            <div class="projects">
+                <div class="project">
+                    <h3>This Website</h3>
+                    <p>Description of this use Case</p>
+                </div>
+                <div class="project">
+                    <h3>Projects of Humanity</h3>
+                    <p>Advertising Technology MVP Product</p>
+                </div>
+                <div class="project">
+                    <h3>Bluesky Feeds</h3>
+                    <p>Latest for fun project</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parallax" style="background-image: url('img/766.webp');">
+        <div class="content-section" id="blog">
+            <h2>Blog Highlights</h2>
+            <div class="blog">
+                <div class="blog-post">
+                    <h3>Slack Recomendations</h3>
+                    <p>How to not be the weakest link</p>
+                </div>
+                <div class="blog-post">
+                    <h3>Road to Salesforce DataCloud</h3>
+                    <p>Path to take the Certification</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const header = document.getElementById('header');
+        const avatar = document.getElementById('avatar');
+        const content = document.getElementById('content');
+        const originalHeight = 300;
+        const minHeight = 145; // Minimum height for the header
+
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            const newHeight = Math.max(originalHeight - scrollPosition, minHeight);
+            
+            header.style.height = newHeight + 'px';
+            content.style.marginTop = newHeight + 'px';
+            
+            // Fade out avatar
+            const avatarOpacity = Math.max(1 - scrollPosition / (originalHeight - minHeight), 0);
+            avatar.style.opacity = avatarOpacity;
+        });
+    </script>
+
+    <footer>
+        <p>Contact: salesforceadrian@gmail.com</p>
+        <p>
+            <a href="https://linkedin.com/in/adrian-barrera">LinkedIn</a> |
+            <a href="https://github.com/sfadrianuy">GitHub</a> |
+            <a href="https://twitter.com/sfadrianuy">Twitter</a>
+        </p>
+    </footer>
+</body>
 </html>

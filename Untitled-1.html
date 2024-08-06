@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        header {
+            text-align: center;
+            padding: 100px 20px;
+            color: white;
+        }
+        .parallax {
+            position: relative;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+        .content-section {
+            padding: 50px 20px;
+            text-align: center;
+            color: white;
+        }
+        .content-section h2 {
+            margin-bottom: 20px;
+        }
+        .content-section p {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .projects, .blog {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .project, .blog-post {
+            width: 30%;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            color: #333;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        form input, form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        form button {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        form button:hover {
+            background: #2980b9;
+        }
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        footer a {
+            color: white;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Header content with image and avatar goes here -->
+    </header>
+
+    <div class="parallax" style="background-image: url('background-blog.jpg');">
+        <div class="content-section" id="blog">
+            <h2>Blog Highlights</h2>
+            <div class="blog">
+                <div class="blog-post">
+                    <h3>Blog Post 1</h3>
+                    <p>Short excerpt from the blog post.</p>
+                </div>
+                <div class="blog-post">
+                    <h3>Blog Post 2</h3>
+                    <p>Short excerpt from the blog post.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parallax" style="background-image: url('background-projects.jpg');">
+        <div class="content-section" id="projects">
+            <h2>Featured Work</h2>
+            <div class="projects">
+                <div class="project">
+                    <h3>Project 1</h3>
+                    <p>Short description of the project.</p>
+                </div>
+                <div class="project">
+                    <h3>Project 2</h3>
+                    <p>Short description of the project.</p>
+                </div>
+                <div class="project">
+                    <h3>Project 3</h3>
+                    <p>Short description of the project.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parallax" style="background-image: url('background-about.jpg');">
+        <div class="content-section" id="about">
+            <h2>About Me</h2>
+            <p>A brief bio about who you are and what you do.</p>
+        </div>
+    </div>
+
+    <div class="parallax" style="background-image: url('background-contact.jpg');">
+        <div class="content-section" id="contact">
+            <h2>Contact Me</h2>
+            <form action="submit_form.php" method="post">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>Contact: johndoe@example.com</p>
+        <p>
+            <a href="https://linkedin.com/in/johndoe">LinkedIn</a> |
+            <a href="https://github.com/johndoe">GitHub</a> |
+            <a href="https://twitter.com/johndoe">Twitter</a>
+        </p>
+    </footer>
+</body>
+</html>
