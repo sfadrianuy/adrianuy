@@ -7,7 +7,6 @@
 <meta name="keywords" content="Developer, Communications Specialist, Agile, Salesforce, Frontend Development, AWS, Technology, Programming, Software Development, Cloud Computing, Web Development, Media Studies, Communication">
 <meta name="author" content="Adrian Barrera">
 <meta name="robots" content="index, follow">
-<!-- <meta name="google-site-verification" content="verification_token">  -->
 
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -15,24 +14,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="http://adrian.uy/">
-<meta property="og:title" content="Adrian Barrera - Developer & Communications Specialist">
-<meta property="og:description" content="Adrian Barrera is a developer and Communications Specialist specializing in agile methodologies, Salesforce, frontend, backend development, Cybersecurity and AWS. Discover projects, read the blog, and get in touch.">
-<meta property="og:image" content="http://adrian.uy/img/adrian.jpg">
-<meta property="og:image:alt" content="Adrian Barrera">
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="http://adrian.uy/">
-<meta property="twitter:title" content="Adrian Barrera - Developer & Communications Specialist">
-<meta property="twitter:description" content="Adrian Barrera is a developer and Communications Specialist specializing in agile methodologies, Salesforce, frontend, backend development, Cybersecurity and AWS. Discover projects, read the blog, and get in touch.">
-<meta property="twitter:image" content="http://adrian.uy/img/adrian.jpg">
-<meta property="twitter:image:alt" content="Adrian Barrera">
-
 <style>
-/* Base */
 html, body {
     margin: 0;
     height: 100%;
@@ -41,14 +23,11 @@ html, body {
     transition: background 0.5s, color 0.5s;
 }
 
-/* Dark / Light backgrounds */
 body.dark { background: #1e1e1e; color: #33ff33; }
 body.light { background: #f5f5f5; color: #000; }
 
-/* Container */
 #container { position: relative; height: 100vh; width: 100%; overflow: hidden; }
 
-/* Consoles */
 .console {
     position: absolute;
     top: 50%;
@@ -64,24 +43,12 @@ body.light { background: #f5f5f5; color: #000; }
     flex-direction: column;
 }
 
-/* Dark console */
-body.dark .console {
-    background-color: rgba(0,0,0,0.85);
-    color: #33ff33;
-    box-shadow: 0 0 40px #00ff0044;
-}
+body.dark .console { background-color: rgba(0,0,0,0.85); color: #33ff33; box-shadow: 0 0 40px #00ff0044; }
+body.light .console { background-color: rgba(255,255,255,0.95); color: #000; box-shadow: 0 0 20px #00000033; }
 
-/* Light console */
-body.light .console {
-    background-color: rgba(255,255,255,0.95);
-    color: #000;
-    box-shadow: 0 0 20px #00000033;
-}
-
-/* Active console */
 .console.active { opacity: 1; }
 
-/* Windows 10-like header */
+/* Windows header */
 .win-header {
     display: flex;
     justify-content: space-between;
@@ -96,14 +63,9 @@ body.light .console {
 .win-header.dark { background: #2d2d30; color: #fff; }
 .win-header.light { background: #e0e0e0; color: #000; }
 
-/* Header title */
+/* Windows header buttons */
 .win-title { font-weight: bold; font-size: 0.9rem; }
-
-/* Windows 10 buttons */
-.win-buttons {
-    display: flex;
-    gap: 0.2rem;
-}
+.win-buttons { display: flex; gap: 0.2rem; }
 .win-buttons button {
     border: none;
     background: transparent;
@@ -118,12 +80,27 @@ body.light .console {
     border-radius: 2px;
     transition: background 0.2s;
 }
-.win-buttons button:hover {
-    background: rgba(255,255,255,0.15);
+.win-buttons button:hover { background: rgba(255,255,255,0.15); }
+body.light .win-buttons button:hover { background: rgba(0,0,0,0.1); }
+
+/* Mac header */
+.mac-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 30px;
+    padding: 0 0.8rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    user-select: none;
 }
-body.light .win-buttons button:hover {
-    background: rgba(0,0,0,0.1);
-}
+.mac-header.dark { background: #2d2d30; color: #fff; }
+.mac-header.light { background: #e0e0e0; color: #000; }
+
+.mac-header .dot { width: 12px; height: 12px; border-radius: 50%; }
+.mac-header .dot.red { background-color: #ff5f56; }
+.mac-header .dot.yellow { background-color: #ffbd2e; }
+.mac-header .dot.green { background-color: #27c93f; }
 
 /* Content */
 .console-content { padding: 1.5rem; }
@@ -143,62 +120,33 @@ a:hover { text-decoration: none; }
     border: 2px solid currentColor;
 }
 
-/* Projects grid */
+/* Projects */
 .projects {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
     margin-top: 1rem;
 }
-.project {
-    padding: 1rem;
-    border: 1px solid currentColor33;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-}
+.project { padding: 1rem; border: 1px solid currentColor33; border-radius: 6px; transition: all 0.3s ease; }
 .project:hover { box-shadow: 0 0 20px currentColor44; }
 
 /* Cursor */
-.cursor {
-    display: inline-block;
-    width: 0.6ch;
-    background-color: currentColor;
-    animation: blink 1s steps(2, start) infinite;
-    vertical-align: bottom;
-}
+.cursor { display: inline-block; width: 0.6ch; background-color: currentColor; animation: blink 1s steps(2,start) infinite; vertical-align: bottom; }
 @keyframes blink { 0%,50% { opacity: 1; } 51%,100% { opacity: 0; } }
 
-/* Toggle switch for dark/light mode */
-.switch {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    z-index: 10;
-}
+/* Dark/light toggle */
+.switch { position: fixed; top: 10px; right: 10px; width: 60px; height: 34px; z-index: 10; }
 .switch input { display: none; }
 .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 34px;
+    position: absolute; cursor: pointer; top:0; left:0; right:0; bottom:0;
+    background-color: #ccc; transition: 0.4s; border-radius: 34px;
 }
 .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px; width: 26px;
-    left: 4px; bottom: 4px;
-    background-color: #fff;
-    transition: 0.4s;
-    border-radius: 50%;
+    position: absolute; content:""; height:26px; width:26px; left:4px; bottom:4px; background-color:#fff;
+    transition:0.4s; border-radius:50%;
 }
 input:checked + .slider { background-color: #999; }
 input:checked + .slider:before { transform: translateX(26px); }
-
 </style>
 </head>
 <body class="dark">
@@ -211,13 +159,8 @@ input:checked + .slider:before { transform: translateX(26px); }
 <div id="container">
     <!-- About Me -->
     <div class="console active">
-        <div class="win-header dark">
-            <span class="win-title">About Me</span>
-            <div class="win-buttons">
-                <button title="Minimize">_</button>
-                <button title="Maximize">☐</button>
-                <button title="Close">X</button>
-            </div>
+        <div class="header">
+            <span class="title">About Me</span>
         </div>
         <div class="console-content">
             <img src="img/adrian.jpg" alt="Adrian Barrera" class="about-photo">
@@ -229,41 +172,22 @@ input:checked + .slider:before { transform: translateX(26px); }
 
     <!-- Projects -->
     <div class="console">
-        <div class="win-header dark">
-            <span class="win-title">Featured Work</span>
-            <div class="win-buttons">
-                <button title="Minimize">_</button>
-                <button title="Maximize">☐</button>
-                <button title="Close">X</button>
-            </div>
+        <div class="header">
+            <span class="title">Featured Work</span>
         </div>
         <div class="console-content">
             <div class="projects">
-                <div class="project">
-                    <h3>This Website</h3>
-                    <p>Case study description here.</p>
-                </div>
-                <div class="project">
-                    <h3>Projects of Humanity</h3>
-                    <p>Advertising Technology MVP Product.</p>
-                </div>
-                <div class="project">
-                    <h3>Bluesky Feeds</h3>
-                    <p>Fun experimental project on feeds and interactions.</p>
-                </div>
+                <div class="project"><h3>This Website</h3><p>Case study description here.</p></div>
+                <div class="project"><h3>Projects of Humanity</h3><p>Advertising Technology MVP Product.</p></div>
+                <div class="project"><h3>Bluesky Feeds</h3><p>Fun experimental project on feeds and interactions.</p></div>
             </div>
         </div>
     </div>
 
     <!-- Contact -->
     <div class="console">
-        <div class="win-header dark">
-            <span class="win-title">Contact</span>
-            <div class="win-buttons">
-                <button title="Minimize">_</button>
-                <button title="Maximize">☐</button>
-                <button title="Close">X</button>
-            </div>
+        <div class="header">
+            <span class="title">Contact</span>
         </div>
         <div class="console-content">
             <p>Email: <a href="mailto:salesforceadrian@gmail.com">salesforceadrian@gmail.com</a></p>
@@ -281,38 +205,49 @@ const consoles = document.querySelectorAll('.console');
 let currentIndex = 0;
 
 function showConsole(index) {
-    consoles.forEach((c,i) => c.classList.toggle('active', i===index));
+    consoles.forEach((c,i)=>c.classList.toggle('active', i===index));
 }
 
 // Scroll navigation
 let scrollTimeout;
-window.addEventListener('wheel', e => {
-    if (scrollTimeout) return;
-    if (e.deltaY > 0 && currentIndex < consoles.length-1) currentIndex++;
-    else if (e.deltaY < 0 && currentIndex > 0) currentIndex--;
+window.addEventListener('wheel', e=>{
+    if(scrollTimeout) return;
+    if(e.deltaY>0 && currentIndex<consoles.length-1) currentIndex++;
+    else if(e.deltaY<0 && currentIndex>0) currentIndex--;
     showConsole(currentIndex);
     scrollTimeout = setTimeout(()=>scrollTimeout=null, 300);
 });
 
 // Arrow keys
-window.addEventListener('keydown', e => {
+window.addEventListener('keydown', e=>{
     if(e.key=="ArrowDown"||e.key=="ArrowRight"){if(currentIndex<consoles.length-1) currentIndex++;}
     else if(e.key=="ArrowUp"||e.key=="ArrowLeft"){if(currentIndex>0) currentIndex--;}
     else{return;}
     showConsole(currentIndex);
 });
 
-// Mode toggle
+// Dark/light toggle
 const toggle = document.getElementById('mode-toggle');
 toggle.addEventListener('change', ()=>{
     if(toggle.checked){
-        document.body.classList.remove('dark');
-        document.body.classList.add('light');
-        document.querySelectorAll('.win-header').forEach(h=>h.classList.replace('dark','light'));
+        document.body.classList.remove('dark'); document.body.classList.add('light');
+        document.querySelectorAll('.header').forEach(h=>h.classList.replace('dark','light'));
     } else {
-        document.body.classList.remove('light');
-        document.body.classList.add('dark');
-        document.querySelectorAll('.win-header').forEach(h=>h.classList.replace('light','dark'));
+        document.body.classList.remove('light'); document.body.classList.add('dark');
+        document.querySelectorAll('.header').forEach(h=>h.classList.replace('light','dark'));
+    }
+});
+
+// OS detection
+const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
+consoles.forEach(c=>{
+    const h = c.querySelector('.header');
+    if(isMac){
+        h.className='mac-header dark';
+        h.innerHTML = '<div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="title">'+h.querySelector('.title').textContent+'</span>';
+    } else {
+        h.className='win-header dark';
+        h.innerHTML = '<span class="win-title">'+h.querySelector('.title').textContent+'</span><div class="win-buttons"><button title="Minimize">_</button><button title="Maximize">☐</button><button title="Close">X</button></div>';
     }
 });
 
