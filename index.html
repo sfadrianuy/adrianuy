@@ -8,7 +8,6 @@
 <meta name="keywords" content="Developer, Communications Specialist, Agile, Salesforce, Frontend Development, AWS, Technology, Programming, Software Development, Cloud Computing, Web Development, Media Studies, Communication">
 <meta name="author" content="Adrian Barrera">
 <meta name="robots" content="index, follow">
-<!-- <meta name="google-site-verification" content="verification_token">  -->
 
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -41,8 +40,15 @@ html, body {
     transition: background 0.5s, color 0.5s;
 }
 
-body.dark { background: #1e1e1e; color: #33ff33; }
-body.light { background: #f5f5f5; color: #000; }
+body.dark { 
+    background: #1e1e1e; 
+    color: #fff;
+}
+
+body.light { 
+    background: #f5f5f5; 
+    color: #000; 
+}
 
 #container { position: relative; height: 100vh; width: 100%; overflow: hidden; }
 
@@ -61,8 +67,17 @@ body.light { background: #f5f5f5; color: #000; }
     flex-direction: column;
 }
 
-body.dark .console { background-color: rgba(0,0,0,0.85); color: #33ff33; box-shadow: 0 0 40px #00ff0044; }
-body.light .console { background-color: rgba(255,255,255,0.95); color: #000; box-shadow: 0 0 20px #00000033; }
+body.dark .console { 
+    background-color: rgba(0,0,0,0.85); 
+    color: #fff; 
+    box-shadow: 0 0 40px #ffffff33;
+}
+
+body.light .console { 
+    background-color: rgba(255,255,255,0.95); 
+    color: #000; 
+    box-shadow: 0 0 20px #00000033; 
+}
 
 .console.active { opacity: 1; }
 
@@ -123,9 +138,17 @@ body.light .win-buttons button:hover { background: rgba(0,0,0,0.1); }
 /* Content */
 .console-content { padding: 1.5rem; }
 h2 { margin-bottom: 1rem; }
-p, li { line-height: 1.6; margin: 0.5rem 0; }
+p, li { line-height: 1.6; margin: 0.5rem 0; position: relative; padding-left: 1.2em; }
 a { text-decoration: underline; }
 a:hover { text-decoration: none; }
+
+/* Console line prefix for paragraphs */
+.console-content p::before {
+    content: attr(data-prefix);
+    position: absolute;
+    left: 0;
+    color: inherit;
+}
 
 /* Photo */
 .about-photo {
@@ -182,9 +205,8 @@ input:checked + .slider:before { transform: translateX(26px); }
         </div>
         <div class="console-content">
             <img src="img/adrian.jpg" alt="Adrian Barrera" class="about-photo">
-            <p>Hi, I'm <strong>Adrián Barrera</strong>, a <strong>Developer & Communications Specialist</strong> passionate about creating meaningful digital and media experiences.</p>
-            <p>With a background in <strong>Communication Science</strong> and <strong>Computer Engineering</strong>, I blend technical know-how with creative storytelling.</p>
-            <p>I've worked on diverse initiatives, from audiovisual productions to technology-driven projects, developing a unique perspective on how technology and media intersect.</p>
+            <p>Hi, I'm <strong>Adrián</strong>, a hands-on <strong>digital professional</strong> blending software development, media projects, and creative problem-solving. With a background in <strong>Communication Science</strong> and <strong>Computer Engineering</strong>, I turn complex challenges into practical, meaningful solutions that bridge technology and storytelling.</p>
+
         </div>
     </div>
 
@@ -248,17 +270,13 @@ window.addEventListener('keydown', e=>{
 let touchStartY = 0;
 let touchEndY = 0;
 const swipeThreshold = 50; // minimum distance for swipe
-
-window.addEventListener('touchstart', e => {
-    touchStartY = e.changedTouches[0].screenY;
-});
-
+window.addEventListener('touchstart', e => { touchStartY = e.changedTouches[0].screenY; });
 window.addEventListener('touchend', e => {
     touchEndY = e.changedTouches[0].screenY;
     const diff = touchStartY - touchEndY;
     if(Math.abs(diff) > swipeThreshold){
-        if(diff > 0 && currentIndex < consoles.length-1) currentIndex++; // swipe up
-        else if(diff < 0 && currentIndex > 0) currentIndex--; // swipe down
+        if(diff > 0 && currentIndex < consoles.length-1) currentIndex++;
+        else if(diff < 0 && currentIndex > 0) currentIndex--;
         showConsole(currentIndex);
     }
 });
@@ -275,7 +293,7 @@ toggle.addEventListener('change', ()=>{
     }
 });
 
-// OS detection
+// OS detection & header setup
 const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
 consoles.forEach(c=>{
     const h = c.querySelector('.header');
@@ -286,12 +304,17 @@ consoles.forEach(c=>{
         h.className='win-header dark';
         h.innerHTML = '<span class="win-title">'+h.querySelector('.title').textContent+'</span><div class="win-buttons"><button title="Minimize">_</button><button title="Maximize">☐</button><button title="Close">X</button></div>';
     }
+
+    // Set console line prefix for each paragraph
+    const paragraphs = c.querySelectorAll('.console-content p');
+    paragraphs.forEach(p=>{
+        p.setAttribute('data-prefix', isMac ? '>' : '$');
+    });
 });
 
 // Initialize first console
 showConsole(0);
 </script>
-
 
 </body>
 </html>
