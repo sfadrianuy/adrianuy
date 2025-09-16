@@ -24,7 +24,7 @@ body.light { background: #f5f5f5; color: #000; }
     transform: translate(-50%, -50%);
     width: 90%;
     max-width: 1000px;
-    height: 90%;
+    height: 80%;
     border-radius: 8px;
     opacity: 0;
     transition: opacity 0.5s, background-color 0.5s, color 0.5s, box-shadow 0.5s;
@@ -110,11 +110,36 @@ body.light .win-buttons button:hover { background: rgba(0,0,0,0.1); }
 .mac-header .dot.yellow { background-color: #ffbd2e; }
 .mac-header .dot.green { background-color: #27c93f; }
 
+/* Fixed contact area (moved out of consoles, won't block center) */
+#contact-fixed {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    pointer-events: auto;
+    font-family: "Courier New", Courier, monospace;
+}
+/* small pill links */
+#contact-fixed a {
+    display: inline-block;
+    padding: 8px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: inherit;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.03);
+}
+body.light #contact-fixed a { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.06); }
+
 /* Content */
 .console-content { padding: 1.5rem; overflow-y: auto; }
 h1, h2 { margin-bottom: 1rem; }
 p, li { line-height: 1.6; margin: 0.5rem 0; }
-a { text-decoration: underline; }
+a { color: whitesmoke; text-decoration: underline; }
 a:hover { text-decoration: none; }
 
 img { max-width: 100%; border-radius: 6px; margin: 1rem 0; }
@@ -150,8 +175,10 @@ input:checked + .slider:before { transform: translateX(26px); }
       <h1>Bluesky Custom Feeds</h1>
       <p>
         <strong>Bluesky Custom Feeds</strong> represent one of the key approaches to decentralization in the AT Protocol. 
-        The idea was to create a marketplace of algorithms—an option missing from the current social media landscape. 
-        Platforms usually offer either opaque, AI-driven algorithms that users can’t control, or purely chronological feeds that reject algorithms altogether. 
+        A marketplace of algorithms was an option missing from the current social media landscape. 
+      </p>
+      <p>
+        Platforms usually offer either opaque algorithms that users can’t control, or purely chronological feeds that reject algorithms altogether. 
         In this context, enabling people to <em>choose or build their own algorithms</em> is not just exciting—it’s necessary for digital sovereignty.
       </p>
       <p>
@@ -164,8 +191,8 @@ input:checked + .slider:before { transform: translateX(26px); }
         <li><strong>Research:</strong> Learning how the AT Protocol defines repositories, records, and XRPC calls.</li>
         <li><strong>Implementation:</strong>
           <ul>
-            <li>Built a Uruguay custom feed following <a href="https://luten.dev/bluesky-ttrpg-feed/">Eddy Luten’s post</a>.</li>
-            <li>Migrated to <a href="https://bossett.io/setting-up-bossetts-bluesky-feed-generator/">Bossett’s framework</a>.</li>
+            <li>Built Uruguay´s custom feed following <a href="https://luten.dev/bluesky-ttrpg-feed/">Eddy Luten’s post</a>.</li>
+            <li>Migrated to <a href="https://bossett.io/setting-up-bossetts-bluesky-feed-generator/">Bossett’s framework</a> to add more feeds.</li>
             <li>Shifted firehose processing to <a href="https://docs.bsky.app/blog/jetstream">Jetstream</a>.</li>
           </ul>  
         </li>
@@ -175,7 +202,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 
       <h2>Architecture</h2>
       <p>
-        The system is structured as a modular Node.js backend running in Docker, connected to a MongoDB database. 
+        The system is structured as a modular Node.js backend running in Docker, connected to a MongoDB database
         Each feed is powered by an <strong>algorithm module</strong> that retrieves and filters posts from Bluesky (via Jetstream), 
         then stores processed metadata in MongoDB. 
         This setup makes it possible to serve feeds efficiently while also generating analytics in real time.
@@ -273,11 +300,11 @@ input:checked + .slider:before { transform: translateX(26px); }
 
       <h2>Takeaways</h2>
       <p>
-        This project highlighted how decentralized protocols like AT Protocol open new ways to interact with social data—filtering, managing, and experimenting with it. 
-        Along the way, I deepened my understanding of AT Protocol, TypeScript, MongoDB, and DigitalOcean deployments.
+        This project highlighted how decentralized protocols like AT Protocol open new ways to interact with social data, filtering, managing, and experimenting with it. 
+        Along the way, I deepened my understanding of AT Protocol, TypeScript, MongoDB, DigitalOcean and the AT Protocol in general.
       </p>
       <p>
-        With today’s social platforms caught between black-box AI-driven algorithms and the rejection of algorithms altogether, 
+        With today’s social platforms caught between black-box algorithms and the rejection of algorithms altogether, 
         this project was a valuable exercise in designing <em>transparent, user-driven filtering</em> of large-scale social data streams.
       </p>
     </div>
@@ -313,6 +340,12 @@ document.querySelectorAll('.console').forEach(c=>{
 // Show console
 document.querySelectorAll('.console').forEach(c=>c.classList.add('active'));
 </script>
-
+<!-- fixed contact links (moved out of overlapping consoles) -->
+  <div id="contact-fixed" aria-hidden="false">
+      <a href="https://adrian.uy">🏠 Home</a>
+      <a href="mailto:abarrera@altimetrik.com" title="Email">Email</a>
+      <a href="https://linkedin.com/in/adrian-barrera" target="_blank" rel="noopener" title="LinkedIn">LinkedIn</a>
+      <a href="https://github.com/djpeluca" target="_blank" rel="noopener" title="GitHub">GitHub</a>
+  </div>
 </body>
 </html>
