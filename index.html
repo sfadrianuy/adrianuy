@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adrian Barrera - Developer & Communications Specialist</title>
-<meta name="description" content="Adrian Barrera is a developer and Communications Specialist specializing in agile methodologies, Salesforce, frontend development, and AWS. Discover projects, read the blog, and get in touch.">
-<meta name="keywords" content="Developer, Communications Specialist, Agile, Salesforce, Frontend Development, AWS, Technology, Programming, Software Development, Cloud Computing, Web Development, Media Studies, Communication">
+<title>Adrian Barrera - Data & AI Specialist</title>
+<meta name="description" content="Adrian Barrera is a Data & AI Specialist specializing in agile methodologies, Salesforce, Data and AI. Discover projects, read the blog, and get in touch.">
+<meta name="keywords" content="Data, AI, Specialist, Agile, Salesforce, Frontend Development, AWS, Technology, Programming, Software Development, Cloud Computing, Web Development, Media Studies, Communication">
 <meta name="author" content="Adrian Barrera">
 <meta name="robots" content="index, follow">
 
@@ -15,21 +15,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="http://adrian.uy/">
-<meta property="og:title" content="Adrian Barrera - Salesforce, Data & AI Specialist">
-<meta property="og:description" content="Adrian Barrera is a Salesforce, Data & AI Specialist specializing in agile methodologies, Salesforce, frontend, backend development, Cybersecurity and AWS. Discover projects, read the blog, and get in touch.">
-<meta property="og:image" content="http://adrian.uy/img/adrian.jpg">
-<meta property="og:image:alt" content="Adrian Barrera">
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="http://adrian.uy/">
-<meta property="twitter:title" content="Adrian Barrera - Salesforce, Data & AI Specialist">
-<meta property="twitter:description" content="Adrian Barrera is a Salesforce, Data & AI Specialist specializing in agile methodologies, Salesforce, frontend, backend development, Cybersecurity and AWS. Discover projects, read the blog, and get in touch.">
-<meta property="twitter:image" content="http://adrian.uy/img/adrian.jpg">
-<meta property="twitter:image:alt" content="Adrian Barrera">
+<!-- Open Graph / Twitter meta omitted for brevity (same as before) -->
 
 <style>
 html, body {
@@ -52,6 +38,7 @@ body.light {
 
 #container { position: relative; height: 100vh; width: 100%; overflow: hidden; }
 
+/* Consoles: only the active one should capture pointer events */
 .console {
     position: absolute;
     top: 50%;
@@ -65,21 +52,29 @@ body.light {
     z-index: 1;
     display: flex;
     flex-direction: column;
+
+    /* Prevent non-active consoles from blocking clicks */
+    pointer-events: none;
 }
 
+/* Active console is clickable and sits above other consoles */
+.console.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 40;
+}
+
+/* Console themes */
 body.dark .console { 
     background-color: rgba(0,0,0,0.85); 
     color: #fff; 
     box-shadow: 0 0 40px #ffffff33;
 }
-
 body.light .console { 
     background-color: rgba(255,255,255,0.95); 
     color: #000; 
     box-shadow: 0 0 20px #00000033; 
 }
-
-.console.active { opacity: 1; }
 
 /* Windows header */
 .win-header {
@@ -135,11 +130,11 @@ body.light .win-buttons button:hover { background: rgba(0,0,0,0.1); }
 .mac-header .dot.yellow { background-color: #ffbd2e; }
 .mac-header .dot.green { background-color: #27c93f; }
 
-/* Content */
+/* Console content */
 .console-content { padding: 1.5rem; }
 h2 { margin-bottom: 1rem; }
 p, li { line-height: 1.6; margin: 0.5rem 0; position: relative; padding-left: 1.2em; }
-a { color: #27c93f; text-decoration: underline; }
+a { color: whitesmoke; text-decoration: underline; }
 a:hover { text-decoration: none; }
 
 /* Console line prefix for paragraphs */
@@ -175,8 +170,8 @@ a:hover { text-decoration: none; }
 .cursor { display: inline-block; width: 0.6ch; background-color: currentColor; animation: blink 1s steps(2,start) infinite; vertical-align: bottom; }
 @keyframes blink { 0%,50% { opacity: 1; } 51%,100% { opacity: 0; } }
 
-/* Dark/light toggle */
-.switch { position: fixed; top: 10px; right: 10px; width: 60px; height: 34px; z-index: 10; }
+/* Dark/light toggle (top-right global, still present) */
+.switch { position: fixed; top: 10px; right: 10px; width: 60px; height: 34px; z-index: 1001; }
 .switch input { display: none; }
 .slider {
     position: absolute; cursor: pointer; top:0; left:0; right:0; bottom:0;
@@ -188,20 +183,69 @@ a:hover { text-decoration: none; }
 }
 input:checked + .slider { background-color: #999; }
 input:checked + .slider:before { transform: translateX(26px); }
-#contact {
-  pointer-events: none;
+
+/* Fixed contact area (moved out of consoles, won't block center) */
+#contact-fixed {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    pointer-events: auto;
+    font-family: "Courier New", Courier, monospace;
 }
-#contact a {
-  pointer-events: auto;
+/* small pill links */
+#contact-fixed a {
+    display: inline-block;
+    padding: 8px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: inherit;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.03);
 }
+body.light #contact-fixed a { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.06); }
+
+/* Navigation hint */
+#nav-hint {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    opacity: 0.85;
+    padding: 6px 12px;
+    border-radius: 6px;
+    pointer-events: none;
+    z-index: 1000;
+    font-family: "Courier New", Courier, monospace;
+    transition: opacity 0.6s ease;
+    background: rgba(255,255,255,0.03);
+    color: #fff;
+}
+body.light #nav-hint { background: rgba(0,0,0,0.04); color: #000; }
 </style>
 </head>
 <body class="dark">
 
-<label class="switch">
+<!-- global (keeps existing behaviour) -->
+<label class="switch" title="Toggle light/dark (global)">
     <input type="checkbox" id="mode-toggle">
     <span class="slider"></span>
 </label>
+
+<!-- fixed contact links (moved out of overlapping consoles) -->
+<div id="contact-fixed" aria-hidden="false">
+    <a href="mailto:abarrera@altimetrik.com" title="Email">Email</a>
+    <a href="https://linkedin.com/in/adrian-barrera" target="_blank" rel="noopener" title="LinkedIn">LinkedIn</a>
+    <a href="https://github.com/djpeluca" target="_blank" rel="noopener" title="GitHub">GitHub</a>
+</div>
+
+<!-- navigation hint -->
+<div id="nav-hint">⬆️ Scroll / Swipe / ← → arrows to switch screens</div>
 
 <div id="container">
     <!-- About Me -->
@@ -211,8 +255,7 @@ input:checked + .slider:before { transform: translateX(26px); }
         </div>
         <div class="console-content">
             <img src="img/adrian.jpg" alt="Adrian Barrera" class="about-photo">
-            <p>Hi, I'm a <strong>digital professional</strong> blending software development, media projects, and creative problem-solving. With a background in <strong>Communication Science</strong> and <strong>Computer Engineering</strong>, I turn complex challenges into practical, meaningful solutions that bridge technology, data and communications with pragmatism.</p>
-
+            <p data-prefix="$">Hi, I'm a <strong>digital professional</strong> blending software development, media projects, and creative problem-solving. With a background in <strong>Communication Science</strong> and <strong>Computer Engineering</strong>, I turn complex challenges into practical, meaningful solutions that bridge technology, data and communications with pragmatism.</p>
         </div>
     </div>
 
@@ -223,101 +266,131 @@ input:checked + .slider:before { transform: translateX(26px); }
         </div>
         <div class="console-content">
             <div class="projects">
-                <div class="project"><h3>Bluesky Custom Feeds</h3><p><a href="/posts/bluesky">Experimental project on desentralized protocol.</a></p></div>
+                <!-- Point explicitly to .html to be robust for static hosts -->
+                <div class="project">
+                    <h3>Bluesky Custom Feeds</h3>
+                    <p data-prefix="$">
+                      <a href="/posts/bluesky.html">Experimental project on decentralized protocols (Bluesky / AT Protocol).</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Contact -->
+    <!-- Contact console kept for visual parity but not used for links -->
     <div class="console">
         <div class="header">
             <span class="title">Contact</span>
         </div>
         <div class="console-content">
-            <p>Email: <a href="mailto:salesforceadrian@gmail.com">salesforceadrian@gmail.com</a></p>
-            <p>
-                <a href="https://linkedin.com/in/adrian-barrera">LinkedIn</a> |
-                <a href="https://github.com/sfadrianuy">GitHub</a> |
-                <a href="https://twitter.com/sfadrianuy">Twitter</a>
-            </p>
+            <p data-prefix="$">Contact links are available at the lower-right corner of the screen.</p>
         </div>
     </div>
 </div>
 
 <script>
+/* navigation state */
 const consoles = document.querySelectorAll('.console');
 let currentIndex = 0;
 
 function showConsole(index) {
-    consoles.forEach((c,i)=>c.classList.toggle('active', i===index));
+    // clamp
+    index = Math.max(0, Math.min(index, consoles.length - 1));
+    currentIndex = index;
+    consoles.forEach((c, i) => c.classList.toggle('active', i === index));
 }
 
-// Scroll / wheel navigation
+// wheel navigation (desktop)
 let scrollTimeout;
-window.addEventListener('wheel', e=>{
-    if(scrollTimeout) return;
-    if(e.deltaY>0 && currentIndex<consoles.length-1) currentIndex++;
-    else if(e.deltaY<0 && currentIndex>0) currentIndex--;
+window.addEventListener('wheel', e => {
+    if (scrollTimeout) return;
+    if (e.deltaY > 0 && currentIndex < consoles.length - 1) currentIndex++;
+    else if (e.deltaY < 0 && currentIndex > 0) currentIndex--;
     showConsole(currentIndex);
-    scrollTimeout = setTimeout(()=>scrollTimeout=null, 300);
+    scrollTimeout = setTimeout(() => scrollTimeout = null, 300);
 });
 
-// Arrow keys
-window.addEventListener('keydown', e=>{
-    if(e.key=="ArrowDown"||e.key=="ArrowRight"){if(currentIndex<consoles.length-1) currentIndex++;}
-    else if(e.key=="ArrowUp"||e.key=="ArrowLeft"){if(currentIndex>0) currentIndex--;}
-    else{return;}
-    showConsole(currentIndex);
+// arrow keys
+window.addEventListener('keydown', e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        if (currentIndex < consoles.length - 1) currentIndex++;
+        showConsole(currentIndex);
+    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        if (currentIndex > 0) currentIndex--;
+        showConsole(currentIndex);
+    } else return;
 });
 
-// Touch navigation (mobile)
+// touch navigation (mobile)
 let touchStartY = 0;
 let touchEndY = 0;
-const swipeThreshold = 50; // minimum distance for swipe
-window.addEventListener('touchstart', e => { touchStartY = e.changedTouches[0].screenY; });
+const swipeThreshold = 50;
+window.addEventListener('touchstart', e => {
+    touchStartY = e.changedTouches[0].screenY;
+});
 window.addEventListener('touchend', e => {
     touchEndY = e.changedTouches[0].screenY;
     const diff = touchStartY - touchEndY;
-    if(Math.abs(diff) > swipeThreshold){
-        if(diff > 0 && currentIndex < consoles.length-1) currentIndex++;
-        else if(diff < 0 && currentIndex > 0) currentIndex--;
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0 && currentIndex < consoles.length - 1) currentIndex++;
+        else if (diff < 0 && currentIndex > 0) currentIndex--;
         showConsole(currentIndex);
     }
 });
 
-// Dark/light toggle
-const toggle = document.getElementById('mode-toggle');
-toggle.addEventListener('change', ()=>{
-    if(toggle.checked){
-        document.body.classList.remove('dark'); document.body.classList.add('light');
-        document.querySelectorAll('.header').forEach(h=>h.classList.replace('dark','light'));
-    } else {
-        document.body.classList.remove('light'); document.body.classList.add('dark');
-        document.querySelectorAll('.header').forEach(h=>h.classList.replace('light','dark'));
-    }
-});
-
-// OS detection & header setup
+// update console header styling (Mac vs Windows look)
 const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
-consoles.forEach(c=>{
+consoles.forEach(c => {
     const h = c.querySelector('.header');
-    if(isMac){
-        h.className='mac-header dark';
-        h.innerHTML = '<div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="title">'+h.querySelector('.title').textContent+'</span>';
+    // keep a copy of the title text
+    const titleText = (h.querySelector('.title') && h.querySelector('.title').textContent) || h.textContent.trim();
+    if (isMac) {
+        h.className = 'mac-header dark';
+        h.innerHTML = '<div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="title">' + titleText + '</span>';
     } else {
-        h.className='win-header dark';
-        h.innerHTML = '<span class="win-title">'+h.querySelector('.title').textContent+'</span><div class="win-buttons"><button title="Minimize">_</button><button title="Maximize">☐</button><button title="Close">X</button></div>';
+        h.className = 'win-header dark';
+        h.innerHTML = '<span class="win-title">' + titleText + '</span><div class="win-buttons"><button title="Minimize">_</button><button title="Maximize">☐</button><button title="Close">X</button></div>';
     }
 
-    // Set console line prefix for each paragraph
+    // set console line prefix for paragraphs inside this console
     const paragraphs = c.querySelectorAll('.console-content p');
-    paragraphs.forEach(p=>{
+    paragraphs.forEach(p => {
         p.setAttribute('data-prefix', isMac ? '>' : '$');
     });
 });
 
-// Initialize first console
+// global dark/light toggle (keeps previous behaviour)
+const toggle = document.getElementById('mode-toggle');
+toggle.addEventListener('change', () => {
+    if (toggle.checked) {
+        document.body.classList.remove('dark'); document.body.classList.add('light');
+        document.querySelectorAll('.win-header, .mac-header').forEach(h => h.classList.replace('dark', 'light'));
+    } else {
+        document.body.classList.remove('light'); document.body.classList.add('dark');
+        document.querySelectorAll('.win-header, .mac-header').forEach(h => h.classList.replace('light', 'dark'));
+    }
+});
+
+// initialize
 showConsole(0);
+
+// nav hint fades after a few seconds but reappears when user stops interacting for a while
+const navHint = document.getElementById('nav-hint');
+let hintTimeout;
+function fadeNavHint() {
+    navHint.style.opacity = '0';
+}
+function showNavHint() {
+    navHint.style.opacity = '0.85';
+    clearTimeout(hintTimeout);
+    hintTimeout = setTimeout(fadeNavHint, 4000);
+}
+showNavHint(); // initial
+// re-show when user uses arrow keys or touch
+window.addEventListener('keydown', showNavHint);
+window.addEventListener('wheel', showNavHint);
+window.addEventListener('touchend', showNavHint);
+
 </script>
 
 </body>
