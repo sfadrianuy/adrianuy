@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bluesky Feeds Project - Adrián Barrera</title>
+<style>
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: "Courier New", Courier, monospace;
+    overflow: hidden;
+    transition: background 0.5s, color 0.5s;
+}
+body.dark { background: #1e1e1e; color: #fff; }
+body.light { background: #f5f5f5; color: #000; }
+
+#container { position: relative; height: 100vh; width: 100%; overflow: hidden; }
+
+.console {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 1000px;
+    height: 80%;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.5s, background-color 0.5s, color 0.5s, box-shadow 0.5s;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+body.dark .console { 
+    background-color: rgba(0,0,0,0.85); 
+    color: #fff; 
+    box-shadow: 0 0 40px #ffffff44; /* white glow instead of green */
+}
+body.light .console { 
+    background-color: rgba(255,255,255,0.95); 
+    color: #000; 
+    box-shadow: 0 0 20px #00000033; 
+}
+
+.console.active { opacity: 1; }
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+    padding: 0 0.8rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    user-select: none;
+}
+
+/* Windows header */
+.win-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    padding: 0 0.8rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    user-select: none;
+    font-weight: normal;
+}
+.win-header.dark { background: #2d2d30; color: #fff; }
+.win-header.light { background: #e0e0e0; color: #000; }
+
+.win-title { font-weight: bold; font-size: 0.9rem; }
+.win-buttons { display: flex; gap: 0.2rem; }
+.win-buttons button {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 0.9rem;
+    width: 28px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    transition: background 0.2s;
+}
+.win-buttons button:hover { background: rgba(255,255,255,0.15); }
+body.light .win-buttons button:hover { background: rgba(0,0,0,0.1); }
+
+/* Mac header */
+.mac-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 30px;
+    padding: 0 0.8rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    user-select: none;
+}
+.mac-header.dark { background: #2d2d30; color: #fff; }
+.mac-header.light { background: #e0e0e0; color: #000; }
+
+.mac-header .dot { width: 12px; height: 12px; border-radius: 50%; }
+.mac-header .dot.red { background-color: #ff5f56; }
+.mac-header .dot.yellow { background-color: #ffbd2e; }
+.mac-header .dot.green { background-color: #27c93f; }
+
+/* Fixed contact area (moved out of consoles, won't block center) */
+#contact-fixed {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    pointer-events: auto;
+    font-family: "Courier New", Courier, monospace;
+}
+/* small pill links */
+#contact-fixed a {
+    display: inline-block;
+    padding: 8px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: inherit;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.03);
+}
+body.light #contact-fixed a { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.06); }
+
+/* Content */
+.console-content { padding: 1.5rem; overflow-y: auto; }
+h1, h2 { margin-bottom: 1rem; }
+p, li { line-height: 1.6; margin: 0.5rem 0; }
+a { color: whitesmoke; text-decoration: underline; }
+a:hover { text-decoration: none; }
+
+img { max-width: 100%; border-radius: 6px; margin: 1rem 0; }
+
+/* Dark/light toggle */
+.switch { position: fixed; top: 10px; right: 10px; width: 60px; height: 34px; z-index: 10; }
+.switch input { display: none; }
+.slider {
+    position: absolute; cursor: pointer; top:0; left:0; right:0; bottom:0;
+    background-color: #ccc; transition: 0.4s; border-radius: 34px;
+}
+.slider:before {
+    position: absolute; content:""; height:26px; width:26px; left:4px; bottom:4px; background-color:#fff;
+    transition:0.4s; border-radius:50%;
+}
+input:checked + .slider { background-color: #999; }
+input:checked + .slider:before { transform: translateX(26px); }
+</style>
+</head>
+<body class="dark">
+
+<label class="switch">
+    <input type="checkbox" id="mode-toggle">
+    <span class="slider"></span>
+</label>
+
+<div id="container">
+  <div class="console active">
+    <div class="header">
+      <span class="title">Bluesky Custom Feeds</span>
+    </div>
+    <div class="console-content">
+      <h1>Automating DNS and Profile Redirections for Bluesky Identities</h1>
+      <p>
+        As part of my work experimenting with the <strong>Bluesky AT Protocol</strong>, I developed two AWS-based solutions:
+      </p>
+      <ul>
+        <li>Automating DNS TXT updates for AT Protocol verification.</li>
+        <li>Redirecting subdomains to Bluesky profiles for simpler identity sharing.</li>
+      </ul>
+      <p>
+        The first project was built <em>in collaboration with a Bluesky community member</em>. 
+        The second came as a <em>direct request from another user</em>, who wanted short branded links for Bluesky handles. 
+        Together, these systems show how cloud infrastructure can make decentralized identities easier to manage and share.
+      </p>
+
+      <h2>Automating DNS Updates with AWS Lambda, Route53, and API Gateway</h2>
+      <p>
+        For AT Protocol verification, each domain needs a <code>_atproto</code> TXT record that points to the user’s DID. 
+        Manually updating these records can be tedious, so I built a <strong>serverless workflow</strong>:
+      </p>
+      <ul>
+        <li><strong>AWS Lambda:</strong> Parses requests and updates DNS.</li>
+        <li><strong>Route53:</strong> Stores DNS TXT records for <code>bsky.ar</code>.</li>
+        <li><strong>API Gateway:</strong> Exposes a public HTTPS endpoint.</li>
+        <li><strong>IAM Role:</strong> Grants Lambda permissions to modify Route53 records.</li>
+      </ul>
+      <p>
+        Using AWS Route 53 for DNS, combined with API Gateway and Lambda, made it possible to handle requests dynamically, 
+        while CloudFront ensured fast and reliable content delivery across regions.  
+        This approach avoided the need for a dedicated server while still enabling custom routing and integrations.
+      </p>
+
+      <h2>Project Focus</h2>
+      <ul>
+        <li><strong>Automation:</strong> Enable users to self-service DNS verification via a simple endpoint.</li>
+        <li><strong>Serverless Design:</strong> Minimize infrastructure management by relying on Lambda and API Gateway.</li>
+        <li><strong>Reliability:</strong> Debugging and logs handled via CloudWatch, with POST-only requests to ensure safe operations.</li>
+        <li><strong>User Collaboration:</strong> Developed with input from a Bluesky community member to match real-world verification workflows.</li>
+      </ul>
+
+      <h2>Architecture</h2>
+      <p>
+        The system is structured as a serverless AWS stack:
+      </p>
+     <svg width="900" height="200" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="900" height="200" fill="#f9f9f9" rx="10" ry="10"/>
+
+  <!-- Title -->
+  <text x="20" y="30" font-size="18" font-family="Arial" fill="#333">Bluesky DNS Update Workflow</text>
+
+  <!-- Workflow band -->
+  <rect x="40" y="50" width="820" height="120" fill="#e3f2fd" rx="10"/>
+  <text x="50" y="65" font-family="Arial" font-size="12" fill="#0288d1">DNS Update Workflow</text>
+
+  <!-- Columns -->
+  <rect x="100" y="90" width="150" height="60" fill="#0288d1" stroke="#000" stroke-width="1" rx="5"/>
+  <text x="175" y="115" font-size="12" font-family="Arial" text-anchor="middle" fill="#fff">API Gateway (AR)</text>
+  <text x="175" y="130" font-size="10" font-family="Arial" text-anchor="middle" fill="#fff">POST /update-dns</text>
+
+  <rect x="350" y="90" width="150" height="60" fill="#6a1b9a" stroke="#000" stroke-width="1" rx="5"/>
+  <text x="425" y="115" font-size="12" font-family="Arial" text-anchor="middle" fill="#fff">Lambda #1 AR</text>
+  <text x="425" y="130" font-size="10" font-family="Arial" text-anchor="middle" fill="#fff">DNS TXT Update</text>
+
+  <circle cx="705" cy="120" r="35" fill="#f9a825" stroke="#000" stroke-width="1"/>
+  <text x="705" y="125" font-size="12" font-family="Arial" text-anchor="middle" fill="#000">Route53 AR</text>
+
+  <!-- Arrow definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- Arrows -->
+  <path d="M250,115 C300,115 340,115 350,115" stroke="#333" stroke-width="2" fill="transparent" marker-end="url(#arrowhead)"/>
+  <path d="M500,120 C580,120 670,120 670,120" stroke="#333" stroke-width="2" fill="transparent" marker-end="url(#arrowhead)"/>
+</svg>
+
+      <p>
+        The Lambda function accepts JSON input like:
+      </p>
+      <pre><code>{
+  "subdomain": "example",
+  "did": "did:example:123456789abcdef"
+}
+</code></pre>
+      <p>
+        and creates the corresponding TXT record <code>_atproto.example.bsky.ar</code>.
+      </p>
+      <p>✅ This allows any Bluesky user under the domain to <strong>self-service their verification</strong> by calling the endpoint.</p>
+
+      <h2>Redirecting Subdomains to Bluesky Profiles</h2>
+      <p>
+        The second system focused on <strong>improving user-facing identity links</strong>. 
+        Instead of sharing long Bluesky URLs, I configured a system where any subdomain of <code>bsky.uy</code> 
+        redirects directly to the matching Bluesky profile.
+      </p>
+      <p>Examples:</p>
+      <ul>
+        <li><code>adrian.bsky.uy</code> → <a href="https://bsky.app/profile/adrian.bsky.uy">https://bsky.app/profile/adrian.bsky.uy</a></li>
+        <li><code>someone.bsky.uy</code> → <a href="https://bsky.app/profile/someone.bsky.uy">https://bsky.app/profile/someone.bsky.uy</a></li>
+      </ul>
+      <p>The stack uses:</p>
+      <svg width="900" height="200" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="900" height="200" fill="#f9f9f9" rx="10" ry="10"/>
+
+  <!-- Title -->
+  <text x="20" y="30" font-size="18" font-family="Arial" fill="#333">Bluesky Redirect Workflow</text>
+
+  <!-- Workflow band -->
+  <rect x="40" y="50" width="820" height="150" fill="#e8f5e9" rx="10"/>
+  <text x="50" y="65" font-family="Arial" font-size="12" fill="#43a047">Redirect Workflow</text>
+
+  <!-- Columns -->
+  <rect x="100" y="90" width="150" height="60" fill="#0288d1" stroke="#000" stroke-width="1" rx="5"/>
+  <text x="175" y="120" font-size="12" font-family="Arial" text-anchor="middle" fill="#fff">Browser</text>
+
+  <rect x="350" y="90" width="150" height="60" fill="#43a047" stroke="#000" stroke-width="1" rx="5"/>
+  <text x="425" y="115" font-size="12" font-family="Arial" text-anchor="middle" fill="#fff">Lambda #2 Redirect</text>
+  <text x="425" y="130" font-size="10" font-family="Arial" text-anchor="middle" fill="#fff">Profile Redirect</text>
+
+  <!-- Butterfly, aligned with Lambda -->
+  <g transform="translate(650,100) scale(0.08)">
+    <path d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z" fill="#1185fe"/>
+  </g>
+
+  <!-- Arrow definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- Arrows -->
+  <path d="M250,120 C300,120 340,120 350,120" stroke="#333" stroke-width="2" fill="transparent" marker-end="url(#arrowhead)"/>
+  <path d="M500,120 C580,120 610,120 650,120" stroke="#333" stroke-width="2" fill="transparent" marker-end="url(#arrowhead)"/>
+</svg>
+
+      <p>Simplified logic:</p>
+      <pre><code>function handler(event) {
+  var host = event.request.headers.host.value;
+  var sub = host.split('.')[0];
+  if (sub !== 'www') {
+    return {
+      statusCode: 302,
+      headers: {
+        location: { value: `https://bsky.app/profile/${sub}.bsky.uy` }
+      }
+    };
+  }
+  return event.request;
+}
+</code></pre>
+      <p>
+        One limitation is that link previews don’t always carry over when redirects happen. 
+        To fix this, I plan to extend the system to dynamically inject <strong>Open Graph tags</strong>, 
+        so each subdomain can display avatars and profile metadata.
+      </p>
+
+      <h2>Closing Thoughts</h2>
+      <p>
+        Both of these projects highlight the <strong>developer-first nature of Bluesky</strong>. 
+        With just a few AWS primitives, it’s possible to:
+      </p>
+      <ul>
+        <li>Automate AT Protocol verification at scale.</li>
+        <li>Provide branded, human-readable profile links that integrate smoothly with the ecosystem.</li>
+      </ul>
+      <p>
+        By collaborating with Bluesky users and responding to their requests, these experiments aim to make decentralized identity 
+        <strong>more accessible, flexible, and user-friendly</strong>.
+      </p>
+
+
+    </div>
+  </div>
+</div>
+
+<script>
+// Dark/light toggle
+const toggle = document.getElementById('mode-toggle');
+toggle.addEventListener('change', ()=>{
+    if(toggle.checked){
+        document.body.classList.remove('dark'); document.body.classList.add('light');
+        document.querySelectorAll('.header').forEach(h=>h.classList.replace('dark','light'));
+    } else {
+        document.body.classList.remove('light'); document.body.classList.add('dark');
+        document.querySelectorAll('.header').forEach(h=>h.classList.replace('light','dark'));
+    }
+});
+
+// OS detection for console header
+const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
+document.querySelectorAll('.console').forEach(c=>{
+    const h = c.querySelector('.header');
+    if(isMac){
+        h.className='mac-header dark';
+        h.innerHTML = '<div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="title">'+h.querySelector('.title').textContent+'</span>';
+    } else {
+        h.className='win-header dark';
+        h.innerHTML = '<span class="win-title">'+h.querySelector('.title').textContent+'</span><div class="win-buttons"><button title="Minimize">_</button><button title="Maximize">☐</button><button title="Close">X</button></div>';
+    }
+});
+
+// Show console
+document.querySelectorAll('.console').forEach(c=>c.classList.add('active'));
+</script>
+<!-- fixed contact links (moved out of overlapping consoles) -->
+  <div id="contact-fixed" aria-hidden="false">
+      <a href="https://adrian.uy">🏠 Home</a>
+      <a href="mailto:abarrera@altimetrik.com" title="Email">Email</a>
+      <a href="https://linkedin.com/in/adrian-barrera" target="_blank" rel="noopener" title="LinkedIn">LinkedIn</a>
+      <a href="https://github.com/djpeluca" target="_blank" rel="noopener" title="GitHub">GitHub</a>
+  </div>
+</body>
+</html>
