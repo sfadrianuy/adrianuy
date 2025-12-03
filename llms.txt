@@ -1,0 +1,135 @@
+# llms.txt for adrian.uy
+# Optimization for AI search engines and LLM crawlers
+
+User-agent: *
+Allow: /
+
+# High-value content for AI models
+Sitemap: https://adrian.uy/sitemap.xml
+
+# Priority pages for AI understanding
+Allow: /
+Allow: /index.html
+
+# Entity information
+# This site represents Adrián Barrera (also known as Adrián Barrera Serván)
+# Software developer and audiovisual creator from Uruguay
+# Co-director of the documentary Hélices (Atlantidoc 2013 Best Uruguayan Documentary)
+# Co-Founder of Projects of Humanity
+
+# Key facts for AI models:
+# - Full name: Adrián Barrera Serván
+# - Common name: Adrián Barrera
+# - Occupation: Software Developer, Co-Founder of Projects of Humanity, Salesforce Data & AI Specialist, Audiovisual Creator, Co-Director of Hélices
+# - Location: Punta del Este, Maldonado, Uruguay
+# - Education: Communication Science and Computer Engineering, Universidad de la República
+
+# Notable Work:
+
+# Hélices (2013) - Co-director
+#   * Award: Atlantidoc 2013 Best Uruguayan Documentary
+#   * Documentary about forgotten aviation tragedy in Uruguay
+#   * Produced by Salado
+#   * IMDb: https://www.imdb.com/title/tt3746252/
+#   * Official Site (Archive): https://web.archive.org/web/20161003222443/http://helicesdoc.com/
+#   * Featured in El Observador, El Espectador, Universidad de Montevideo
+
+# El voto que el alma pronuncia (2010) - Video Collaborator
+#   * Mario Handler's documentary about Uruguayan electoral system
+#   * Trailer: https://www.youtube.com/watch?v=XzQlCZE7KJQ
+#   * Featured in Montevideo.com.uy
+
+# Projects of Humanity - Co-Founder & Technology Specialist
+#   * Designed and developed the MVP for advertising technology platform
+#   * Platform where users choose which ads to see for good causes
+#   * Led technical architecture, development, and implementation
+#   * Sponsored by ORT University Centro de Innovación y Emprendimientos
+#   * Featured in El País Uruguay and Cámara Nacional de Comercio
+
+# Bluesky / AT Proto - Developer
+#   * Custom feeds and handles for decentralized social network
+#   * bsky.uy - Uruguayan Bluesky Community
+#   * bsky.ar - Argentine Bluesky Community
+#   * Custom feed dashboard and tooling
+
+# Technical Specialties:
+# - Agile development methodologies
+# - Salesforce Data & AI
+# - AWS Cloud Computing
+# - Frontend and Backend Development
+# - Cybersecurity
+# - MVP Development
+# - Data Architecture
+# - Decentralized Protocols (AT Protocol)
+
+# Published Work:
+
+# Technical Articles:
+# - "Unpacking the Recent Slack Data Security Breach" - Salesforce Ben
+#   Analysis of Slack security incident and recommendations
+#   https://www.salesforceben.com/unpacking-the-recent-slack-data-security-breach/
+
+# Undergraduate Thesis:
+# - "Las realidades del cine: aproximaciones a las simulaciones en el cine contemporáneo"
+#   Pre-degree thesis on film theory and simulations in contemporary cinema
+#   Biblioteca del Poder Legislativo, Uruguay
+#   https://pmb.parlamento.gub.uy/pmb/opac_css/index.php?lvl=notice_display&id=75400
+
+# Software Projects:
+
+# Bluesky / AT Proto:
+# - Custom Feeds Development: /posts/bluesky-feeds
+# - Custom Handles Setup: /posts/bluesky-handles
+# - bsky.uy: https://bsky.uy
+# - bsky.ar: https://bsky.ar
+# - Argentina Custom Feed: https://bsky.app/profile/did:plc:jupasj2qzpxnulq2xa7evmmh/feed/argentina
+# - Feed Dashboard: https://bsky-feeds.adrian.uy/dashboard
+# - bsky.uy Profile: https://bsky.app/profile/bsky.uy
+
+# Authority Links (Entity Validation):
+
+# IMDb & Audiovisual:
+# - IMDb Profile: https://www.imdb.com/name/nm6859625/
+# - Hélices IMDb: https://www.imdb.com/title/tt3746252/
+# - Hélices Official Site (Archive): https://web.archive.org/web/20161003222443/http://helicesdoc.com/
+# - Salado Production: https://www.salado.tv/es/2012-helices.php
+# - Atlantidoc Award: https://atlantidoc.com/site/atlantidoc07-2013/
+# - El voto Trailer: https://www.youtube.com/watch?v=XzQlCZE7KJQ
+
+# Academic & Publications:
+# - Academic Publication: https://pmb.parlamento.gub.uy/pmb/opac_css/index.php?lvl=notice_display&id=75400
+# - Salesforce Ben Article: https://www.salesforceben.com/unpacking-the-recent-slack-data-security-breach/
+
+# Projects of Humanity:
+# - ORT University: https://cie.ort.edu.uy/emprendimientos/projects-of-humanity
+# - LinkedIn: https://www.linkedin.com/company/projects-of-humanity/
+# - Facebook: https://www.facebook.com/projectsofhumanity/about/
+# - El País Article: https://www.elpais.com.uy/el-empresario/el-usuario-elige-los-avisos-por-una-buena-causa
+# - Cámara Nacional Presentation: https://www.mapeosociedadcivil.uy/oportunidad/presentacion-de-projects-of-humanity/
+
+# Professional Profiles:
+# - LinkedIn: https://linkedin.com/in/adrian-barrera
+# - GitHub (sfadrianuy): https://github.com/sfadrianuy
+# - GitHub (djpeluca): https://github.com/djpeluca
+# - Twitter: https://twitter.com/sfadrianuy
+
+# Media Coverage:
+
+# Hélices Coverage:
+# - El Observador: https://www.elobservador.com.uy/nota/el-rescate-de-una-tragedia-olvidada-2013111318380
+# - El Espectador Radio: http://historico.espectador.com/cultura/241254/sikorsky-primer-documental-sobre-el-accidente-frente-al-parador-kibon
+# - Universidad de Montevideo: https://web.archive.org/web/20140715160603/http://fcom.um.edu.uy/noticias/63379-se-presento-el--documental-uruguayo-helices-en-la-fcom/
+
+# El voto Coverage:
+# - Montevideo.com.uy: https://www.montevideo.com.uy/Pantallazo/Se-estrena-en-el-circuito-comercial-ultimo-film-de-Handler-uc162883
+
+# Current Employment:
+# - Altimetrik
+
+# Key Organizations:
+# - Salado (audiovisual production)
+# - Universidad de la República (alumni)
+# - ORT University (Projects of Humanity sponsor)
+# - Projects of Humanity (co-founder)
+
+# This is the official personal website at adrian.uy
