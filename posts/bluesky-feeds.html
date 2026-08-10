@@ -3,370 +3,738 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bluesky Feeds Project - Adrián Barrera</title>
+<title>Bluesky Custom Feeds - Adrián Barrera</title>
+<meta name="description" content="A technical project post by Adrián Barrera about designing and operating Bluesky custom feeds using AT Protocol, Jetstream, Node.js, Docker, MongoDB, GitHub Actions and DigitalOcean.">
+<meta name="author" content="Adrián Barrera">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://adrian.uy/posts/bluesky-feeds">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://adrian.uy/posts/bluesky-feeds">
+<meta property="og:title" content="Bluesky Custom Feeds - Adrián Barrera">
+<meta property="og:description" content="A technical project post about AT Protocol, Bluesky custom feeds, regional feeds, analytics and deployment architecture.">
+<meta property="og:image" content="https://adrian.uy/img/bluesky-dashboard.png">
+<meta property="og:image:alt" content="Bluesky custom feed dashboard">
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://adrian.uy/posts/bluesky-feeds">
+<meta property="twitter:title" content="Bluesky Custom Feeds - Adrián Barrera">
+<meta property="twitter:description" content="A technical project post about AT Protocol, Bluesky custom feeds, regional feeds, analytics and deployment architecture.">
+<meta property="twitter:image" content="https://adrian.uy/img/bluesky-dashboard.png">
+<meta property="twitter:image:alt" content="Bluesky custom feed dashboard">
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Bluesky Custom Feeds",
+    "description": "A technical project post about designing and operating Bluesky custom feeds using AT Protocol, Jetstream, Node.js, Docker, MongoDB, GitHub Actions and DigitalOcean.",
+    "author": {
+        "@type": "Person",
+        "name": "Adrián Barrera",
+        "url": "https://adrian.uy/"
+    },
+    "publisher": {
+        "@type": "Person",
+        "name": "Adrián Barrera"
+    },
+    "mainEntityOfPage": "https://adrian.uy/posts/bluesky-feeds",
+    "image": "https://adrian.uy/img/bluesky-dashboard.png",
+    "keywords": [
+        "Bluesky",
+        "AT Protocol",
+        "Custom Feeds",
+        "Jetstream",
+        "Node.js",
+        "MongoDB",
+        "DigitalOcean",
+        "GitHub Actions",
+        "Decentralized Social Networks"
+    ]
+}
+</script>
+
 <style>
-html, body {
+:root {
+    color-scheme: light dark;
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --surface-muted: #ebe7dc;
+    --text: #1f2933;
+    --muted: #5f6b76;
+    --border: #d9d3c7;
+    --accent: #275f75;
+    --accent-strong: #174456;
+    --shadow: 0 18px 50px rgba(33, 37, 41, 0.08);
+    --max-width: 1040px;
+}
+
+body.dark {
+    --bg: #111418;
+    --surface: #1a1f25;
+    --surface-muted: #252c34;
+    --text: #f1f5f9;
+    --muted: #b3bfcc;
+    --border: #323b45;
+    --accent: #7fc7df;
+    --accent-strong: #b6e8f5;
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
     margin: 0;
-    height: 100%;
-    font-family: "Courier New", Courier, monospace;
-    overflow: hidden;
-    transition: background 0.5s, color 0.5s;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    transition: background 0.25s ease, color 0.25s ease;
 }
-body.dark { background: #1e1e1e; color: #fff; }
-body.light { background: #f5f5f5; color: #000; }
 
-#container { position: relative; height: 100vh; width: 100%; overflow: hidden; }
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 12% 10%, rgba(39, 95, 117, 0.13), transparent 30%),
+        radial-gradient(circle at 88% 8%, rgba(121, 85, 72, 0.10), transparent 26%);
+    z-index: -1;
+}
 
-.console {
+a {
+    color: var(--accent);
+    text-decoration: none;
+    text-underline-offset: 0.2em;
+}
+
+a:hover,
+a:focus-visible {
+    color: var(--accent-strong);
+    text-decoration: underline;
+}
+
+img,
+svg {
+    max-width: 100%;
+    display: block;
+}
+
+.skip-link {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 1000px;
-    height: 80%;
-    border-radius: 8px;
-    opacity: 0;
-    transition: opacity 0.5s, background-color 0.5s, color 0.5s, box-shadow 0.5s;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
+    left: 1rem;
+    top: -3rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 999px;
+    z-index: 2000;
 }
 
-body.dark .console { 
-    background-color: rgba(0,0,0,0.85); 
-    color: #fff; 
-    box-shadow: 0 0 40px #ffffff44; /* white glow instead of green */
-}
-body.light .console { 
-    background-color: rgba(255,255,255,0.95); 
-    color: #000; 
-    box-shadow: 0 0 20px #00000033; 
+.skip-link:focus {
+    top: 1rem;
 }
 
-.console.active { opacity: 1; }
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(16px);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    border-bottom: 1px solid var(--border);
+}
 
-.header {
+.nav-shell {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0.85rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 30px;
-    padding: 0 0.8rem;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    user-select: none;
+    gap: 1rem;
 }
 
-/* Windows header */
-.win-header {
-    display: flex;
-    justify-content: space-between;
+.brand {
+    display: inline-flex;
     align-items: center;
-    height: 30px;
-    padding: 0 0.8rem;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    user-select: none;
-    font-weight: normal;
+    gap: 0.75rem;
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
-.win-header.dark { background: #2d2d30; color: #fff; }
-.win-header.light { background: #e0e0e0; color: #000; }
 
-.win-title { font-weight: bold; font-size: 0.9rem; }
-.win-buttons { display: flex; gap: 0.2rem; }
-.win-buttons button {
-    border: none;
-    background: transparent;
-    color: inherit;
-    font-size: 0.9rem;
-    width: 28px;
-    height: 24px;
-    cursor: pointer;
+.brand-mark {
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--surface-muted);
+    border: 1px solid var(--border);
+    color: var(--accent-strong);
+    font-size: 0.85rem;
+}
+
+.nav-links {
+    list-style: none;
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 2px;
-    transition: background 0.2s;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
 }
-.win-buttons button:hover { background: rgba(255,255,255,0.15); }
-body.light .win-buttons button:hover { background: rgba(0,0,0,0.1); }
 
-/* Mac header */
-.mac-header {
-    display: flex;
+.nav-links a {
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+    color: var(--text);
+}
+
+.theme-toggle {
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    height: 30px;
-    padding: 0 0.8rem;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    cursor: pointer;
     user-select: none;
 }
-.mac-header.dark { background: #2d2d30; color: #fff; }
-.mac-header.light { background: #e0e0e0; color: #000; }
 
-.mac-header .dot { width: 12px; height: 12px; border-radius: 50%; }
-.mac-header .dot.red { background-color: #ff5f56; }
-.mac-header .dot.yellow { background-color: #ffbd2e; }
-.mac-header .dot.green { background-color: #27c93f; }
-
-/* Fixed contact area (moved out of consoles, won't block center) */
-#contact-fixed {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    pointer-events: auto;
-    font-family: "Courier New", Courier, monospace;
+.theme-toggle input {
+    position: absolute;
+    opacity: 0;
 }
-/* small pill links */
-#contact-fixed a {
-    display: inline-block;
-    padding: 8px 10px;
-    border-radius: 6px;
-    text-decoration: none;
+
+.toggle-track {
+    position: relative;
+    width: 2.8rem;
+    height: 1.55rem;
+    border-radius: 999px;
+    background: var(--surface-muted);
+    border: 1px solid var(--border);
+}
+
+.toggle-track::after {
+    content: "";
+    position: absolute;
+    width: 1.05rem;
+    height: 1.05rem;
+    border-radius: 50%;
+    left: 0.22rem;
+    top: 0.2rem;
+    background: var(--accent);
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle input:checked + .toggle-track::after {
+    transform: translateX(1.23rem);
+}
+
+main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+}
+
+.article-hero {
+    padding: 5rem 0 3rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    gap: 2rem;
+    align-items: end;
+}
+
+.eyebrow {
+    margin: 0 0 0.9rem;
+    color: var(--accent);
     font-size: 0.9rem;
-    color: inherit;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.03);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
-body.light #contact-fixed a { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.06); }
 
-/* Content */
-.console-content { padding: 1.5rem; overflow-y: auto; }
-h1, h2 { margin-bottom: 1rem; }
-p, li { line-height: 1.6; margin: 0.5rem 0; }
-a { color: whitesmoke; text-decoration: underline; }
-a:hover { text-decoration: none; }
-
-img { max-width: 100%; border-radius: 6px; margin: 1rem 0; }
-
-/* Dark/light toggle */
-.switch { position: fixed; top: 10px; right: 10px; width: 60px; height: 34px; z-index: 10; }
-.switch input { display: none; }
-.slider {
-    position: absolute; cursor: pointer; top:0; left:0; right:0; bottom:0;
-    background-color: #ccc; transition: 0.4s; border-radius: 34px;
+h1 {
+    margin: 0;
+    max-width: 12ch;
+    color: var(--text);
+    font-size: clamp(2.8rem, 8vw, 5.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.07em;
 }
-.slider:before {
-    position: absolute; content:""; height:26px; width:26px; left:4px; bottom:4px; background-color:#fff;
-    transition:0.4s; border-radius:50%;
+
+.article-summary {
+    max-width: 44rem;
+    margin: 1.5rem 0 0;
+    color: var(--muted);
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
 }
-input:checked + .slider { background-color: #999; }
-input:checked + .slider:before { transform: translateX(26px); }
+
+.meta-card {
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow);
+}
+
+.meta-card dl {
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.meta-card dt {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.meta-card dd {
+    margin: 0;
+    font-weight: 650;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+.toc {
+    position: sticky;
+    top: 5.5rem;
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.toc strong {
+    display: block;
+    margin-bottom: 0.65rem;
+}
+
+.toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.4rem;
+}
+
+.toc a {
+    color: var(--muted);
+    font-size: 0.93rem;
+    font-weight: 600;
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+    color: var(--text);
+}
+
+.article-content {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.content-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1.15rem;
+    padding: clamp(1.2rem, 3vw, 1.8rem);
+    box-shadow: var(--shadow);
+}
+
+.content-card h2 {
+    margin: 0 0 0.9rem;
+    font-size: clamp(1.6rem, 3vw, 2.35rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+}
+
+.content-card h3 {
+    margin: 1.2rem 0 0.45rem;
+    font-size: 1.1rem;
+}
+
+.content-card p {
+    margin: 0 0 0.9rem;
+    color: var(--muted);
+}
+
+.content-card p:last-child {
+    margin-bottom: 0;
+}
+
+.content-card ul {
+    margin: 0.8rem 0 0;
+    padding-left: 1.2rem;
+    color: var(--muted);
+}
+
+.content-card li {
+    margin: 0.45rem 0;
+}
+
+.diagram {
+    margin-top: 1.2rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    background: #fafafa;
+    overflow-x: auto;
+}
+
+body.dark .diagram {
+    background: #f8fafc;
+}
+
+.image-card {
+    margin-top: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface-muted);
+}
+
+.image-card img {
+    width: 100%;
+    height: auto;
+}
+
+.image-card figcaption {
+    padding: 0.75rem 1rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+.link-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    gap: 0.55rem;
+}
+
+.link-list li {
+    margin: 0;
+}
+
+.link-list a {
+    font-weight: 650;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 2rem;
+    font-weight: 700;
+}
+
+.site-footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem;
+    color: var(--muted);
+}
+
+.footer-shell {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+    .nav-shell {
+        flex-wrap: wrap;
+    }
+
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 0.5rem;
+        overflow-x: auto;
+        padding-top: 0.35rem;
+    }
+
+    .article-hero,
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .toc {
+        position: static;
+    }
+}
+
+@media (max-width: 560px) {
+    main,
+    .nav-shell,
+    .site-footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .article-hero {
+        padding-top: 3.5rem;
+    }
+
+    .brand span:last-child,
+    .theme-label {
+        display: none;
+    }
+}
 </style>
 </head>
-<body class="dark">
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
 
-<label class="switch">
-    <input type="checkbox" id="mode-toggle">
-    <span class="slider"></span>
-</label>
+<header class="site-header">
+    <div class="nav-shell">
+        <a class="brand" href="/" aria-label="Adrián Barrera home">
+            <span class="brand-mark">AB</span>
+            <span>Adrián Barrera</span>
+        </a>
 
-<div id="container">
-  <div class="console active">
-    <div class="header">
-      <span class="title">Bluesky Custom Feeds</span>
+        <nav aria-label="Primary navigation">
+            <ul class="nav-links">
+                <li><a href="/#about">About</a></li>
+                <li><a href="/#writing">Writing</a></li>
+                <li><a href="/#projects">Projects</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <label class="theme-toggle" title="Toggle dark mode">
+            <input type="checkbox" id="mode-toggle" aria-label="Toggle dark mode">
+            <span class="toggle-track" aria-hidden="true"></span>
+            <span class="theme-label">Dark</span>
+        </label>
     </div>
-    <div class="console-content">
-      <h1>Bluesky Custom Feeds</h1>
-      <p>
-        <strong>Bluesky Custom Feeds</strong> represent one of the key approaches to decentralization in the AT Protocol. 
-        A marketplace of algorithms was an option missing from the current social media landscape. 
-      </p>
-      <p>
-        Platforms usually offer either opaque algorithms that users can’t control, or purely chronological feeds that reject algorithms altogether. 
-        In this context, enabling people to <em>choose or build their own algorithms</em> is not just exciting—it’s necessary for digital sovereignty.
-      </p>
-      <p>
-        This project began as an experiment: exploring what makes an algorithm useful, how to define topics for feeds, and how to build regional feeds. 
-        Later, the focus expanded into gathering data from these feeds and presenting simple analytics to better understand activity patterns and growth.
-      </p>
+</header>
 
-      <h2>Project Focus</h2>
-      <ul>
-        <li><strong>Research:</strong> Learning how the AT Protocol defines repositories, records, and XRPC calls.</li>
-        <li><strong>Implementation:</strong>
-          <ul>
-            <li>Built Uruguay´s custom feed following <a href="https://luten.dev/bluesky-ttrpg-feed/" target="_blank">Eddy Luten’s post</a>.</li>
-            <li>Migrated to <a href="https://bossett.io/setting-up-bossetts-bluesky-feed-generator/" target="_blank">Bossett’s framework</a> to add more feeds.</li>
-            <li>Shifted firehose processing to <a href="https://docs.bsky.app/blog/jetstream" target="_blank">Jetstream</a>.</li>
-          </ul>  
-        </li>
-        <li><strong>Optimization & Refactor:</strong> Improved caching, query performance, and endpoint stability while adding new feeds.</li>
-        <li><strong>Analytics:</strong> Designed dashboards to visualize feed growth and user activity.</li>
-      </ul>
+<main id="main">
+    <section class="article-hero" aria-labelledby="article-title">
+        <div>
+            <p class="eyebrow">Project Post · AT Protocol</p>
+            <h1 id="article-title">Bluesky Custom Feeds</h1>
+            <p class="article-summary">A practical exploration of user-driven algorithms in Bluesky: regional feeds, technology feeds, analytics, and the backend architecture that supports them.</p>
+        </div>
 
-      <h2>Architecture</h2>
-      <p>
-        The system is structured as a modular Node.js backend running in Docker, connected to a MongoDB database
-        Each feed is powered by an <strong>algorithm module</strong> that retrieves and filters posts from Bluesky (via Jetstream), 
-        then stores processed metadata in MongoDB. 
-        This setup makes it possible to serve feeds efficiently while also generating analytics in real time.
-      </p>
+        <aside class="meta-card" aria-label="Post metadata">
+            <dl>
+                <div>
+                    <dt>Stack</dt>
+                    <dd>Node.js · Docker · MongoDB</dd>
+                </div>
+                <div>
+                    <dt>Protocol</dt>
+                    <dd>AT Protocol · Jetstream</dd>
+                </div>
+                <div>
+                    <dt>Deployment</dt>
+                    <dd>GitHub Actions · DigitalOcean</dd>
+                </div>
+            </dl>
+        </aside>
+    </section>
 
-      <!-- SVG diagram -->
-      <svg width="900" height="600" xmlns="http://www.w3.org/2000/svg">
-        <!-- Background -->
-        <rect width="100%" height="100%" fill="#fafafa"/>
+    <div class="content-grid">
+        <aside class="toc" aria-label="Table of contents">
+            <strong>On this page</strong>
+            <ul>
+                <li><a href="#context">Context</a></li>
+                <li><a href="#focus">Project Focus</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#deployment">Deployment</a></li>
+                <li><a href="#feeds">Custom Feeds</a></li>
+                <li><a href="#dashboards">Dashboards</a></li>
+                <li><a href="#takeaways">Takeaways</a></li>
+                <li><a href="#links">Links</a></li>
+            </ul>
+        </aside>
 
-        <!-- Column 1: Bluesky Services -->
-        <rect x="50" y="50" width="200" height="180" fill="none" stroke="#333" stroke-width="2" rx="12"/>
-        <text x="150" y="40" font-family="Arial" font-size="18" text-anchor="middle" fill="#333">Bluesky Services</text>
-        <rect x="70" y="70" width="160" height="70" fill="#4fc3f7" stroke="#333" stroke-width="2" rx="12"/>
-        <text x="150" y="105" font-family="Arial" font-size="16" text-anchor="middle" fill="#fff">Bluesky API</text>
-        <rect x="70" y="150" width="160" height="70" fill="#0288d1" stroke="#333" stroke-width="2" rx="12"/>
-        <text x="150" y="185" font-family="Arial" font-size="16" text-anchor="middle" fill="#fff">Jetstream</text>
+        <article class="article-content">
+            <section id="context" class="content-card">
+                <h2>Context</h2>
+                <p><strong>Bluesky Custom Feeds</strong> are one of the most interesting decentralization patterns in the AT Protocol ecosystem. They allow users to choose, inspect and build alternative timelines instead of depending only on a single opaque ranking algorithm.</p>
+                <p>Most social platforms sit between two extremes: black-box recommendation engines or purely chronological timelines. Bluesky custom feeds create a middle ground where algorithms can be explicit, community-oriented and replaceable.</p>
+                <p>This project started as an experiment to understand what makes a feed useful. It later evolved into regional feeds, technology feeds and lightweight analytics to measure feed activity and growth.</p>
+            </section>
 
-        <!-- Column 2: Node.js Wrapper (Docker) -->
-        <rect x="300" y="50" width="300" height="250" fill="none" stroke="#333" stroke-dasharray="6,4" stroke-width="2" rx="12"/>
-        <text x="450" y="40" font-family="Arial" font-size="18" text-anchor="middle" fill="#333">Node.js Wrapper (Docker)</text>
-        
-        <rect x="320" y="70" width="260" height="100" fill="#6a1b9a" stroke="#333" stroke-width="2" rx="12"/>
-        <text x="450" y="110" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Feed Service</text>
-        <text x="450" y="135" font-family="Arial" font-size="12" text-anchor="middle" fill="#fff">Algorithm Modules</text>
+            <section id="focus" class="content-card">
+                <h2>Project Focus</h2>
+                <ul>
+                    <li><strong>Research:</strong> Studied how AT Protocol repositories, records and XRPC calls work.</li>
+                    <li><strong>Implementation:</strong> Built the Uruguay custom feed using <a href="https://luten.dev/bluesky-ttrpg-feed/" target="_blank" rel="noopener noreferrer">Eddy Luten’s post</a> as an initial reference.</li>
+                    <li><strong>Framework migration:</strong> Migrated to <a href="https://bossett.io/setting-up-bossetts-bluesky-feed-generator/" target="_blank" rel="noopener noreferrer">Bossett’s framework</a> to support multiple feeds more effectively.</li>
+                    <li><strong>Stream processing:</strong> Shifted firehose processing to <a href="https://docs.bsky.app/blog/jetstream" target="_blank" rel="noopener noreferrer">Jetstream</a>.</li>
+                    <li><strong>Optimization:</strong> Improved caching, query performance and endpoint stability while adding new feeds.</li>
+                    <li><strong>Analytics:</strong> Designed dashboards to visualize feed growth, posting frequency and user activity.</li>
+                </ul>
+            </section>
 
-        <rect x="320" y="180" width="260" height="100" fill="#388e3c" stroke="#333" stroke-width="2" rx="12"/>
-        <text x="450" y="220" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Analytics Service</text>
+            <section id="architecture" class="content-card">
+                <h2>Architecture</h2>
+                <p>The system is structured as a modular Node.js backend running in Docker and connected to MongoDB. Each feed is powered by an algorithm module that retrieves and filters posts from Bluesky through Jetstream, then stores processed metadata for serving feeds and analytics.</p>
+                <p>The goal was to keep the implementation simple enough to maintain, while still separating feed logic, stream processing, analytics and persistence.</p>
 
-        <!-- Analytics Dashboard -->
-        <rect x="650" y="180" width="200" height="70" fill="#f0c84b" stroke="#333" stroke-width="2" rx="12"/>
-        <text x="750" y="235" font-family="Arial" font-size="16" text-anchor="middle" fill="#333">Analytics Dashboard</text>
+                <div class="diagram" aria-label="Architecture diagram">
+                    <svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="architecture-title architecture-description">
+                        <title id="architecture-title">Bluesky custom feeds architecture</title>
+                        <desc id="architecture-description">Bluesky API and Jetstream send data to a Node.js Docker service. Feed and analytics services write to MongoDB and expose analytics to a dashboard.</desc>
+                        <rect width="100%" height="100%" fill="#fafafa"/>
+                        <rect x="50" y="50" width="200" height="180" fill="none" stroke="#333" stroke-width="2" rx="12"/>
+                        <text x="150" y="40" font-family="Arial" font-size="18" text-anchor="middle" fill="#333">Bluesky Services</text>
+                        <rect x="70" y="70" width="160" height="70" fill="#4fc3f7" stroke="#333" stroke-width="2" rx="12"/>
+                        <text x="150" y="105" font-family="Arial" font-size="16" text-anchor="middle" fill="#fff">Bluesky API</text>
+                        <rect x="70" y="150" width="160" height="70" fill="#0288d1" stroke="#333" stroke-width="2" rx="12"/>
+                        <text x="150" y="185" font-family="Arial" font-size="16" text-anchor="middle" fill="#fff">Jetstream</text>
+                        <rect x="300" y="50" width="300" height="250" fill="none" stroke="#333" stroke-dasharray="6,4" stroke-width="2" rx="12"/>
+                        <text x="450" y="40" font-family="Arial" font-size="18" text-anchor="middle" fill="#333">Node.js Wrapper (Docker)</text>
+                        <rect x="320" y="70" width="260" height="100" fill="#6a1b9a" stroke="#333" stroke-width="2" rx="12"/>
+                        <text x="450" y="110" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Feed Service</text>
+                        <text x="450" y="135" font-family="Arial" font-size="12" text-anchor="middle" fill="#fff">Algorithm Modules</text>
+                        <rect x="320" y="180" width="260" height="100" fill="#388e3c" stroke="#333" stroke-width="2" rx="12"/>
+                        <text x="450" y="220" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Analytics Service</text>
+                        <rect x="650" y="180" width="200" height="70" fill="#f0c84b" stroke="#333" stroke-width="2" rx="12"/>
+                        <text x="750" y="222" font-family="Arial" font-size="16" text-anchor="middle" fill="#333">Analytics Dashboard</text>
+                        <ellipse cx="450" cy="480" rx="70" ry="10" fill="#c84b4b" stroke="#333" stroke-width="2"/>
+                        <rect x="380" y="430" width="140" height="50" fill="#c84b4b" stroke="#333" stroke-width="2"/>
+                        <ellipse cx="450" cy="430" rx="70" ry="10" fill="#c84b4b" stroke="#333" stroke-width="2"/>
+                        <text x="450" y="455" font-family="Arial" font-size="16" text-anchor="middle" fill="#fff">MongoDB</text>
+                        <defs>
+                            <marker id="architecture-arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                        <line x1="250" y1="135" x2="300" y2="135" stroke="#333" stroke-width="2" marker-end="url(#architecture-arrowhead)"/>
+                        <line x1="580" y1="220" x2="650" y2="220" stroke="#333" stroke-width="2" marker-end="url(#architecture-arrowhead)"/>
+                        <line x1="450" y1="300" x2="450" y2="430" stroke="#333" stroke-width="2" marker-end="url(#architecture-arrowhead)"/>
+                    </svg>
+                </div>
+            </section>
 
-        <!-- MongoDB (smaller cylinder) -->
-        <ellipse cx="450" cy="480" rx="70" ry="10" fill="#c84b4b" stroke="#333" stroke-width="2"/>
-        <rect x="380" y="430" width="140" height="50" fill="#c84b4b" stroke="#333" stroke-width="2"/>
-        <ellipse cx="450" cy="430" rx="70" ry="10" fill="#c84b4b" stroke="#333" stroke-width="2"/>
-        <text x="450" y="455" font-family="Arial" font-size="16" text-anchor="middle" fill="#fff">MongoDB</text>
+            <section id="deployment" class="content-card">
+                <h2>Deployment Pipeline</h2>
+                <p>Code and deployments follow a streamlined delivery pipeline. Source code lives in GitHub, builds and checks run through GitHub Actions, and deployment is delivered to a DigitalOcean App.</p>
 
-        <!-- Arrowhead -->
-        <defs>
-          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-            <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-          </marker>
-        </defs>
+                <div class="diagram" aria-label="Deployment pipeline diagram">
+                    <svg width="900" height="260" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="deployment-title deployment-description">
+                        <title id="deployment-title">Deployment pipeline</title>
+                        <desc id="deployment-description">GitHub sends code to GitHub Actions. GitHub Actions deploys to a DigitalOcean App.</desc>
+                        <rect width="100%" height="100%" fill="#f9f9f9"/>
+                        <rect x="50" y="90" width="180" height="80" fill="#24292e" stroke="#333" stroke-width="2" rx="12"/>
+                        <text x="140" y="135" font-family="Arial" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">GitHub</text>
+                        <rect x="300" y="90" width="220" height="80" fill="#2088ff" stroke="#333" stroke-width="2" rx="12"/>
+                        <text x="410" y="125" font-family="Arial" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">GitHub Actions</text>
+                        <rect x="600" y="90" width="220" height="80" fill="#0069ff" stroke="#333" stroke-width="2" rx="12"/>
+                        <text x="710" y="125" font-family="Arial" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">DigitalOcean App</text>
+                        <defs>
+                            <marker id="deployment-arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                        <line x1="230" y1="130" x2="300" y2="130" stroke="#333" stroke-width="2" marker-end="url(#deployment-arrowhead)"/>
+                        <line x1="520" y1="130" x2="600" y2="130" stroke="#333" stroke-width="2" marker-end="url(#deployment-arrowhead)"/>
+                        <text x="265" y="115" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Push</text>
+                        <text x="560" y="115" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Deploy</text>
+                    </svg>
+                </div>
+            </section>
 
-        <!-- Horizontal arrow from Bluesky Services to Node.js Wrapper -->
-        <line x1="250" y1="135" x2="300" y2="135" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-        
-        <!-- Horizontal arrow from Analytics Service to Analytics Dashboard -->
-        <line x1="580" y1="220" x2="650" y2="220" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <section id="feeds" class="content-card">
+                <h2>Custom Feeds</h2>
+                <p>The feeds are organized into two main categories. The first group is regional: Uruguay, Argentina, Río de la Plata and Brazil. The Brazil feed is focused on Brazilian Portuguese content.</p>
+                <p>The second group is technology-oriented: Fediverse, Salesforce and a broader AI feed.</p>
 
-        <!-- Vertical arrow from Node.js Wrapper (middle bottom) to MongoDB -->
-        <line x1="450" y1="300" x2="450" y2="430" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-      </svg>
+                <figure class="image-card">
+                    <img src="../img/uyfeed.png" alt="Uruguay Bluesky custom feed preview">
+                    <figcaption>Uruguay custom feed preview.</figcaption>
+                </figure>
+            </section>
 
-      <h2>Deployment Pipeline</h2>
-      <p>
-        Code and deployments follow a streamlined pipeline: source code lives in GitHub, automated builds and tests run via GitHub Actions, and deployments are delivered directly to a DigitalOcean App.
-      </p>
-      <!-- Deployment pipeline SVG -->
-      <svg width="900" height="260" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100%" height="100%" fill="#f9f9f9"/>
-        <rect x="50" y="90" width="180" height="80" fill="#24292e" stroke="#333" stroke-width="2" rx="12"/>
-        <text x="140" y="135" font-family="Arial" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">GitHub</text>
+            <section id="dashboards" class="content-card">
+                <h2>Data Dashboards</h2>
+                <p>To better understand feed performance, I built dashboards that visualize post counts, unique authors, posting frequency and growth trends. The same dashboards help identify activity patterns, engagement changes and top contributors.</p>
 
-        <rect x="300" y="90" width="220" height="80" fill="#2088ff" stroke="#333" stroke-width="2" rx="12"/>
-        <text x="410" y="125" font-family="Arial" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">GitHub Actions</text>
+                <figure class="image-card">
+                    <img src="../img/bluesky-dashboard.png" alt="Bluesky feeds analytics dashboard example">
+                    <figcaption>Analytics dashboard for custom feed activity.</figcaption>
+                </figure>
+            </section>
 
-        <rect x="600" y="90" width="220" height="80" fill="#0069ff" stroke="#333" stroke-width="2" rx="12"/>
-        <text x="710" y="125" font-family="Arial" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">DigitalOcean App</text>
+            <section id="takeaways" class="content-card">
+                <h2>Takeaways</h2>
+                <p>This project made the value of decentralized social protocols more concrete. AT Protocol enables new ways to filter, manage and experiment with large-scale social data without depending on a single platform-controlled timeline.</p>
+                <p>From a technical perspective, the project strengthened my understanding of TypeScript, MongoDB, stream processing, DigitalOcean deployment and AT Protocol concepts. From a product perspective, it was an exercise in transparent, user-driven filtering.</p>
+            </section>
 
-        <line x1="230" y1="130" x2="300" y2="130" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-        <line x1="520" y1="130" x2="600" y2="130" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+            <section id="links" class="content-card">
+                <h2>Links</h2>
+                <h3>Custom feeds</h3>
+                <ul class="link-list">
+                    <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/uruguay" target="_blank" rel="noopener noreferrer">Uruguay Feed</a></li>
+                    <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/argentina" target="_blank" rel="noopener noreferrer">Argentina Feed</a></li>
+                    <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/riodelaplata" target="_blank" rel="noopener noreferrer">Río de la Plata Feed</a></li>
+                    <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/brasil" target="_blank" rel="noopener noreferrer">Brazil Feed</a></li>
+                    <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/fediverse" target="_blank" rel="noopener noreferrer">Fediverse Feed</a></li>
+                    <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/salesforce" target="_blank" rel="noopener noreferrer">Salesforce Feed</a></li>
+                    <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/ai" target="_blank" rel="noopener noreferrer">AI Feed</a></li>
+                    <li><a href="https://bsky-feeds.adrian.uy/dashboard" target="_blank" rel="noopener noreferrer">Analytics Dashboard</a></li>
+                </ul>
+            </section>
 
-        <text x="265" y="115" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Push</text>
-        <text x="560" y="115" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Deploy</text>
-
-        <defs>
-          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-            <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-          </marker>
-        </defs>
-      </svg>
-      
-      <h2>Custom Feeds</h2>
-      <p>As of now I have two big categories of feeds, Regional feeds including Uruguay, Argertina and the combination of both called Rio de la Plata. And Brasil (which is actually a Brasilian Portuguese feed) </p>
-      <p>Then I made some Tech feeds, one about the Fediverse, another about Salesforce and a genarilistic one about AI</p>
-      <img src="../img/uyfeed.png" alt="Uruguay Bluesky Feed" />
-
-      <h2>Data Dashboards</h2>
-      <p>
-        To better understand how feeds were performing, I built dashboards showing:
-      </p>
-      <ul>
-        <li><strong>Feed analytics:</strong> Post counts, unique authors, posting frequency, and growth trends.</li>
-        <li><strong>User insights:</strong> Activity patterns, engagement rates, and top contributors.</li>
-      </ul>
-      <img src="../img/bluesky-dashboard.png" alt="Bluesky Feeds Dashboard Example" />
-
-      <h2>Takeaways</h2>
-      <p>
-        This project highlighted how decentralized protocols like AT Protocol open new ways to interact with social data, filtering, managing, and experimenting with it. 
-        Along the way, I deepened my understanding of AT Protocol, TypeScript, MongoDB, DigitalOcean and the AT Protocol in general.
-      </p>
-      <p>
-        With today’s social platforms caught between black-box algorithms and the rejection of algorithms altogether, 
-        this project was a valuable exercise in designing <em>transparent, user-driven filtering</em> of large-scale social data streams.
-      </p>
-
-      <h2>Links</h2>
-      <ul>
-        <li><strong>Custom Feeds:</strong>
-          <ul>
-            <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/uruguay" target="_blank">Uruguay Feed</a>.</li>
-            <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/argentina" target="_blank">Argentina Feed</a>.</li>
-            <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/riodelaplata" target="_blank">Rio de la Plata Feed</a>.</li>
-            <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/brasil" target="_blank">Brasil Feed</a>.</li>
-            <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/fediverse" target="_blank">Fediverse Feed</a>.</li>
-            <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/salesforce" target="_blank">Salesforce Feed</a>.</li>
-            <li><a href="https://bsky.app/profile/adrian.bsky.uy/feed/ai" target="_blank">AI Feed</a>.</li>
-          </ul>  
-        </li>
-        <li><a href="https://bsky-feeds.adrian.uy/dashboard" target="_blank">Dashboard</a>.</li>
-      </ul>
+            <a class="back-link" href="/">← Back to home</a>
+        </article>
     </div>
-  </div>
-</div>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-shell">
+        <span>© 2026 Adrián Barrera</span>
+        <span>Official personal website · adrian.uy</span>
+    </div>
+</footer>
 
 <script>
-// Dark/light toggle
 const toggle = document.getElementById('mode-toggle');
-toggle.addEventListener('change', ()=>{
-    if(toggle.checked){
-        document.body.classList.remove('dark'); document.body.classList.add('light');
-        document.querySelectorAll('.header').forEach(h=>h.classList.replace('dark','light'));
-    } else {
-        document.body.classList.remove('light'); document.body.classList.add('dark');
-        document.querySelectorAll('.header').forEach(h=>h.classList.replace('light','dark'));
-    }
-});
+const storedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-// OS detection for console header
-const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
-document.querySelectorAll('.console').forEach(c=>{
-    const h = c.querySelector('.header');
-    if(isMac){
-        h.className='mac-header dark';
-        h.innerHTML = '<div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="title">'+h.querySelector('.title').textContent+'</span>';
-    } else {
-        h.className='win-header dark';
-        h.innerHTML = '<span class="win-title">'+h.querySelector('.title').textContent+'</span><div class="win-buttons"><button title="Minimize">_</button><button title="Maximize">☐</button><button title="Close">X</button></div>';
-    }
-});
+function setTheme(isDark) {
+    document.body.classList.toggle('dark', isDark);
+    toggle.checked = isDark;
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
 
-// Show console
-document.querySelectorAll('.console').forEach(c=>c.classList.add('active'));
+setTheme(storedTheme ? storedTheme === 'dark' : prefersDark);
+
+toggle.addEventListener('change', () => {
+    setTheme(toggle.checked);
+});
 </script>
-<!-- fixed contact links (moved out of overlapping consoles) -->
-  <div id="contact-fixed" aria-hidden="false">
-      <a href="https://adrian.uy">🏠 Home</a>
-      <a href="mailto:abarrera@altimetrik.com" title="Email">Email</a>
-      <a href="https://linkedin.com/in/adrian-barrera" target="_blank" rel="noopener" title="LinkedIn">LinkedIn</a>
-      <a href="https://github.com/djpeluca" target="_blank" rel="noopener" title="GitHub">GitHub</a>
-  </div>
 </body>
 </html>
