@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hélices: From an Idea to a Documentary - Adrián Barrera</title>
+<meta name="description" content="A personal project post by Adrián Barrera about Hélices, the documentary on the 1971 Kibón helicopter tragedy, from the original idea to the realization of the film years later.">
+<meta name="author" content="Adrián Barrera">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://adrian.uy/posts/helices.html">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://adrian.uy/posts/helices.html">
+<meta property="og:title" content="Hélices: From an Idea to a Documentary - Adrián Barrera">
+<meta property="og:description" content="A personal project post about the origin, research and realization of Hélices, the documentary on the 1971 Kibón tragedy.">
+<meta property="og:image" content="https://adrian.uy/img/adrian.jpg">
+<meta property="og:image:alt" content="Adrián Barrera">
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://adrian.uy/posts/helices.html">
+<meta property="twitter:title" content="Hélices: From an Idea to a Documentary - Adrián Barrera">
+<meta property="twitter:description" content="A personal project post about the origin, research and realization of Hélices, the documentary on the 1971 Kibón tragedy.">
+<meta property="twitter:image" content="https://adrian.uy/img/adrian.jpg">
+<meta property="twitter:image:alt" content="Adrián Barrera">
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Hélices: From an Idea to a Documentary",
+    "description": "A personal project post about Hélices, the documentary on the 1971 Kibón helicopter tragedy, from the original idea to the realization of the film years later.",
+    "author": {
+        "@type": "Person",
+        "name": "Adrián Barrera",
+        "url": "https://adrian.uy/"
+    },
+    "publisher": {
+        "@type": "Person",
+        "name": "Adrián Barrera"
+    },
+    "mainEntityOfPage": "https://adrian.uy/posts/helices.html",
+    "image": "https://adrian.uy/img/adrian.jpg",
+    "keywords": [
+        "Hélices",
+        "Kibón",
+        "Uruguayan Documentary",
+        "Atlantidoc",
+        "Documentary Filmmaking",
+        "Memory",
+        "Investigation",
+        "Uruguayan Cinema"
+    ],
+    "about": {
+        "@type": "Movie",
+        "name": "Hélices: Revelando una tragedia",
+        "datePublished": "2013",
+        "countryOfOrigin": "Uruguay",
+        "director": [
+            {
+                "@type": "Person",
+                "name": "Adrián Barrera"
+            },
+            {
+                "@type": "Person",
+                "name": "Maxi Contenti"
+            }
+        ],
+        "productionCompany": {
+            "@type": "Organization",
+            "name": "Salado"
+        }
+    }
+}
+</script>
+
+<style>
+:root {
+    color-scheme: light dark;
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --surface-muted: #ebe7dc;
+    --text: #1f2933;
+    --muted: #5f6b76;
+    --border: #d9d3c7;
+    --accent: #275f75;
+    --accent-strong: #174456;
+    --shadow: 0 18px 50px rgba(33, 37, 41, 0.08);
+    --max-width: 1040px;
+}
+
+body.dark {
+    --bg: #111418;
+    --surface: #1a1f25;
+    --surface-muted: #252c34;
+    --text: #f1f5f9;
+    --muted: #b3bfcc;
+    --border: #323b45;
+    --accent: #7fc7df;
+    --accent-strong: #b6e8f5;
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 12% 10%, rgba(39, 95, 117, 0.13), transparent 30%),
+        radial-gradient(circle at 88% 8%, rgba(121, 85, 72, 0.10), transparent 26%);
+    z-index: -1;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+    text-underline-offset: 0.2em;
+}
+
+a:hover,
+a:focus-visible {
+    color: var(--accent-strong);
+    text-decoration: underline;
+}
+
+img,
+svg {
+    max-width: 100%;
+    display: block;
+}
+
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -3rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 999px;
+    z-index: 2000;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(16px);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-shell {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0.85rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.brand-mark {
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--surface-muted);
+    border: 1px solid var(--border);
+    color: var(--accent-strong);
+    font-size: 0.85rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links a {
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+    color: var(--text);
+}
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.theme-toggle input {
+    position: absolute;
+    opacity: 0;
+}
+
+.toggle-track {
+    position: relative;
+    width: 2.8rem;
+    height: 1.55rem;
+    border-radius: 999px;
+    background: var(--surface-muted);
+    border: 1px solid var(--border);
+}
+
+.toggle-track::after {
+    content: "";
+    position: absolute;
+    width: 1.05rem;
+    height: 1.05rem;
+    border-radius: 50%;
+    left: 0.22rem;
+    top: 0.2rem;
+    background: var(--accent);
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle input:checked + .toggle-track::after {
+    transform: translateX(1.23rem);
+}
+
+main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+}
+
+.article-hero {
+    padding: 5rem 0 3rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    gap: 2rem;
+    align-items: end;
+}
+
+.eyebrow {
+    margin: 0 0 0.9rem;
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 0;
+    max-width: 12ch;
+    color: var(--text);
+    font-size: clamp(2.8rem, 8vw, 5.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.07em;
+}
+
+.article-summary {
+    max-width: 44rem;
+    margin: 1.5rem 0 0;
+    color: var(--muted);
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+}
+
+.meta-card {
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow);
+}
+
+.meta-card dl {
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.meta-card dt {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.meta-card dd {
+    margin: 0;
+    font-weight: 650;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+.toc {
+    position: sticky;
+    top: 5.5rem;
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.toc strong {
+    display: block;
+    margin-bottom: 0.65rem;
+}
+
+.toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.4rem;
+}
+
+.toc a {
+    color: var(--muted);
+    font-size: 0.93rem;
+    font-weight: 600;
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+    color: var(--text);
+}
+
+.article-content {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.content-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1.15rem;
+    padding: clamp(1.2rem, 3vw, 1.8rem);
+    box-shadow: var(--shadow);
+}
+
+.content-card h2 {
+    margin: 0 0 0.9rem;
+    font-size: clamp(1.6rem, 3vw, 2.35rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+}
+
+.content-card h3 {
+    margin: 1.2rem 0 0.45rem;
+    font-size: 1.1rem;
+}
+
+.content-card p {
+    margin: 0 0 0.9rem;
+    color: var(--muted);
+}
+
+.content-card p:last-child {
+    margin-bottom: 0;
+}
+
+.content-card ul {
+    margin: 0.8rem 0 0;
+    padding-left: 1.2rem;
+    color: var(--muted);
+}
+
+.content-card li {
+    margin: 0.45rem 0;
+}
+
+.quote-card {
+    border-left: 4px solid var(--accent);
+}
+
+.link-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    gap: 0.55rem;
+}
+
+.link-list li {
+    margin: 0;
+}
+
+.link-list a {
+    font-weight: 650;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 2rem;
+    font-weight: 700;
+}
+
+.site-footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem;
+    color: var(--muted);
+}
+
+.footer-shell {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+    .nav-shell {
+        flex-wrap: wrap;
+    }
+
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 0.5rem;
+        overflow-x: auto;
+        padding-top: 0.35rem;
+    }
+
+    .article-hero,
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .toc {
+        position: static;
+    }
+}
+
+@media (max-width: 560px) {
+    main,
+    .nav-shell,
+    .site-footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .article-hero {
+        padding-top: 3.5rem;
+    }
+
+    .brand span:last-child,
+    .theme-label {
+        display: none;
+    }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+    <div class="nav-shell">
+        <a class="brand" href="/" aria-label="Adrián Barrera home">
+            <span class="brand-mark">AB</span>
+            <span>Adrián Barrera</span>
+        </a>
+
+        <nav aria-label="Primary navigation">
+            <ul class="nav-links">
+                <li><a href="/#about">About</a></li>
+                <li><a href="/#projects">Projects</a></li>
+                <li><a href="/#writing">Writing</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <label class="theme-toggle" title="Toggle dark mode">
+            <input type="checkbox" id="mode-toggle" aria-label="Toggle dark mode">
+            <span class="toggle-track" aria-hidden="true"></span>
+            <span class="theme-label">Dark</span>
+        </label>
+    </div>
+</header>
+
+<main id="main">
+    <section class="article-hero" aria-labelledby="article-title">
+        <div>
+            <p class="eyebrow">Project Post · Documentary</p>
+            <h1 id="article-title">Hélices: From an Idea to a Documentary</h1>
+            <p class="article-summary">A personal account of how an initial idea about a forgotten public tragedy became a documentary years later: from curiosity and memory work to interviews, production, release and recognition.</p>
+        </div>
+
+        <aside class="meta-card" aria-label="Post metadata">
+            <dl>
+                <div>
+                    <dt>Film</dt>
+                    <dd>Hélices: Revelando una tragedia</dd>
+                </div>
+                <div>
+                    <dt>Role</dt>
+                    <dd>Idea maker · Co-director</dd>
+                </div>
+                <div>
+                    <dt>Production</dt>
+                    <dd>Salado · Uruguay · 2013</dd>
+                </div>
+            </dl>
+        </aside>
+    </section>
+
+    <div class="content-grid">
+        <aside class="toc" aria-label="Table of contents">
+            <strong>On this page</strong>
+            <ul>
+                <li><a href="#context">Context</a></li>
+                <li><a href="#origin">From Fiction to Documentary</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#realization">Realization</a></li>
+                <li><a href="#release">Release</a></li>
+                <li><a href="#recognition">Recognition</a></li>
+                <li><a href="#takeaways">Takeaways</a></li>
+                <li><a href="#links">Links</a></li>
+            </ul>
+        </aside>
+
+        <article class="article-content">
+            <section id="context" class="content-card">
+                <h2>Context</h2>
+                <p><strong>Hélices</strong> is a documentary about the 1971 Kibón tragedy, when two Sikorsky H-34 helicopters collided during a public military event on the Montevideo rambla. The accident transformed a weekend spectacle into a traumatic public event and left victims, families and witnesses carrying questions for decades.</p>
+                <p>The film was produced by Salado and co-directed by Adrián Barrera and Maxi Contenti. Salado describes it as the first Uruguayan documentary to address facts that had remained hidden for more than forty years.</p>
+                <p>The documentary is not only about the accident. It is also about memory, silence, institutional opacity, and the long distance between an event that many people witnessed and a public explanation that many people felt never fully arrived.</p>
+            </section>
+
+            <section id="origin" class="content-card">
+                <h2>From Fiction to Documentary</h2>
+                <p>My relationship with <strong>Hélices</strong> did not begin as a finished documentary concept. It began when Maxi Contenti brought me the idea of a fiction film about the Kibón tragedy and invited me to collaborate in the ideation process and the first script drafts.</p>
+                <p>The original impulse came from a story Maxi had received through his father, who had witnessed the accident as a teenager. At first, the material seemed to call for fiction: a dramatic reconstruction of a public tragedy that younger generations barely knew.</p>
+                <p>As we developed the project together, a parallel documentary path emerged. With the newly created Fondos de Incentivo Cultural, we presented a side documentary project to support the investigation behind the fiction script and to explore a subject that had rarely been spoken about publicly. That proposal received funding, and the research gradually opened a new path for the work: the documentary became a way to investigate the tragedy, recover testimonies and address a story that had remained partly buried in public memory.</p>
+            </section>
+
+            <section id="research" class="content-card">
+                <h2>Research and Interviews</h2>
+                <p>The accident happened during a public celebration of the Armada, when two Sikorsky H-34 helicopters were part of an aerial-military demonstration. Press coverage later described the crash as causing eight deaths and around forty serious injuries.</p>
+                <p>The research, led by Antonio Pereira, became one of the central strengths of the film. It helped reveal technical problems with the helicopters, the difficult path victims faced when seeking compensation, and the pilots' limited familiarity with the aircraft.</p>
+                <p>The interviews were not only a way to collect information. They were a way to reopen a conversation that had been avoided, fragmented or postponed. Some victims were reluctant to participate, which made the process harder and also confirmed how delicate the subject still was.</p>
+            </section>  
+
+            <section id="realization" class="content-card">
+                <h2>From Idea to Realization</h2>
+                <p>The realization of <strong>Hélices</strong> was a lesson in how a project can change form when the material demands it. What began around a fiction film became a documentary because reality had more narrative force, more ethical weight and more urgency than the fictional version we first imagined.</p>
+                <p>The development process started in 2009, when the project won Fondos de Incentivo Cultural. Years later, after research, script work, production and many obstacles, the documentary premiered in 2013 at the Festival de Cine Nuevo Detour.</p>
+                <p>For me, the most important experience was seeing the project grow from collaboration on an idea and early script drafts into a shared cinematic object. The work had to stop belonging only to the first impulse. It had to become something capable of holding other people’s memories with seriousness and care.</p>
+            </section>
+
+            <section id="release" class="content-card">
+                <h2>Release and Public Conversation</h2>
+                <p>The documentary had a public life after completion. Montevideo Portal reported that TNU aired <strong>Hélices</strong> 43 years after the crash, framing it as the first Uruguayan documentary to address a story that had remained hidden for more than forty years.</p>
+                <p>That television release mattered because the work returned the story to a public space. A documentary about collective memory should not remain private; it needs to circulate, invite discussion and allow new generations to understand why an old wound still matters.</p>
+                <p>For a project that started with a question about silence, every screening, article and conversation was part of the answer.</p>
+            </section>
+
+            <section id="recognition" class="content-card quote-card">
+                <h2>Recognition</h2>
+                <p>At ATLANTIDOC 2013, <strong>Hélices, revelando una tragedia</strong> received the Intendencia Municipal de Canelones “Alberto Mántaras” award for Best Uruguayan Documentary.</p>
+                <p>The jury highlighted the film for building an intense story through solid journalistic research around a fact that had remained hidden for years and for which the State had not given answers that satisfied the victims.</p>
+                <p>This recognition was meaningful because it understood the project in the terms that mattered most: not only as a film, but as an act of investigation and memory.</p>
+            </section>
+
+            <section id="takeaways" class="content-card">
+                <h2>Takeaways</h2>
+                <p><strong>Hélices</strong> taught me that an idea can take years to become real, and that this is not necessarily a weakness. Some stories need time before they can be approached responsibly.</p>
+                <p>It also taught me that documentary filmmaking is not just about finding a topic. It is about earning the right to tell it, building trust, organizing complexity and accepting that the final work belongs to a larger conversation than the one that originated it.</p>
+                <p>Looking back, I see the project as a bridge between curiosity, research, collective memory and public service. It began with the feeling that something had been left unsaid, and it became a film because many people helped turn that feeling into a serious work.</p>
+            </section>
+
+            <section id="links" class="content-card">
+                <h2>Links and References</h2>
+                <h3>Film and production</h3>
+                <ul class="link-list">
+                    <li><a href="https://www.salado.tv/es/2012-helices.php" target="_blank" rel="noopener noreferrer">Hélices at Salado</a></li>
+                    <li><a href="https://www.imdb.com/title/tt3746252/" target="_blank" rel="noopener noreferrer">Hélices on IMDb</a></li>
+                    <li><a href="https://web.archive.org/web/20161003222443/http://helicesdoc.com/" target="_blank" rel="noopener noreferrer">Archived official website</a></li>
+                    <li><a href="https://www.youtube.com/watch?v=mJ61AqZIrdA" target="_blank" rel="noopener noreferrer">Watch the documentary on YouTube</a></li>
+                </ul>
+
+                <h3>Festival and press</h3>
+                <ul class="link-list">
+                    <li><a href="https://atlantidoc.com/paginas/archivo_2013_noticias.htm" target="_blank" rel="noopener noreferrer">ATLANTIDOC 2013 awards</a></li>
+                    <li><a href="https://www.montevideo.com.uy/Pantallazo/TNU-estrena-el-documental-Helices--uc252423" target="_blank" rel="noopener noreferrer">TNU premiere coverage at Montevideo Portal</a></li>
+                    <li><a href="https://www.elpais.com.uy/que-pasa/la-tragedia-que-nadie-explico" target="_blank" rel="noopener noreferrer">El País: La tragedia que nadie explicó</a></li>
+                    <li><a href="https://www.elobservador.com.uy/nota/el-rescate-de-una-tragedia-olvidada-2013111318380" target="_blank" rel="noopener noreferrer">El Observador: El rescate de una tragedia olvidada</a></li>
+                    <li><a href="http://historico.espectador.com/cultura/241254/sikorsky-primer-documental-sobre-el-accidente-frente-al-parador-kibon" target="_blank" rel="noopener noreferrer">El Espectador interview</a></li>
+                </ul>
+            </section>
+
+            <a class="back-link" href="/">← Back to home</a>
+        </article>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-shell">
+        <span>© 2026 Adrián Barrera</span>
+        <span>Official personal website · adrian.uy</span>
+    </div>
+</footer>
+
+<script>
+const toggle = document.getElementById('mode-toggle');
+const storedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+function setTheme(isDark) {
+    document.body.classList.toggle('dark', isDark);
+    toggle.checked = isDark;
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
+setTheme(storedTheme ? storedTheme === 'dark' : prefersDark);
+
+toggle.addEventListener('change', () => {
+    setTheme(toggle.checked);
+});
+</script>
+</body>
+</html>
