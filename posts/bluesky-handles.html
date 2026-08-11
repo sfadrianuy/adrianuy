@@ -664,7 +664,6 @@ body.dark .diagram {
             <section id="redirect-architecture" class="content-card">
                 <h2>Redirect Architecture</h2>
                 <p>The redirect workflow keeps request handling lightweight. A browser requests the branded subdomain, the edge/serverless function derives the target handle, and the user is redirected to the corresponding Bluesky profile.</p>
-                <p>One known limitation is that link previews do not always preserve profile metadata after a redirect. A future improvement would dynamically inject Open Graph tags so each subdomain can display profile-specific avatars and metadata.</p>
 
                 <div class="diagram" aria-label="Redirect workflow diagram">
                     <svg width="900" height="260" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="redirect-title redirect-description">
