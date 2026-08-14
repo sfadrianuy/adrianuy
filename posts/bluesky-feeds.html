@@ -16,12 +16,12 @@
 <meta property="og:image" content="https://adrian.uy/img/bluesky-dashboard.png">
 <meta property="og:image:alt" content="Bluesky custom feed dashboard">
 
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://adrian.uy/posts/bluesky-feeds">
-<meta property="twitter:title" content="Bluesky Custom Feeds - Adrián Barrera">
-<meta property="twitter:description" content="A technical project post about AT Protocol, Bluesky custom feeds, regional feeds, analytics and deployment architecture.">
-<meta property="twitter:image" content="https://adrian.uy/img/bluesky-dashboard.png">
-<meta property="twitter:image:alt" content="Bluesky custom feed dashboard">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://adrian.uy/posts/bluesky-feeds">
+<meta name="twitter:title" content="Bluesky Custom Feeds - Adrián Barrera">
+<meta name="twitter:description" content="A technical project post about AT Protocol, Bluesky custom feeds, regional feeds, analytics and deployment architecture.">
+<meta name="twitter:image" content="https://adrian.uy/img/bluesky-dashboard.png">
+<meta name="twitter:image:alt" content="Bluesky custom feed dashboard">
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4S0SJHEYQ0"></script>
@@ -37,18 +37,19 @@
 {
     "@context": "https://schema.org",
     "@type": "TechArticle",
+    "@id": "https://adrian.uy/posts/bluesky-feeds#article",
+    "url": "https://adrian.uy/posts/bluesky-feeds",
     "headline": "Bluesky Custom Feeds",
     "description": "A technical project post about designing and operating Bluesky custom feeds using AT Protocol, Jetstream, Node.js, Docker, MongoDB, GitHub Actions and DigitalOcean.",
     "author": {
-        "@type": "Person",
-        "name": "Adrián Barrera",
-        "url": "https://adrian.uy/"
+        "@id": "https://adrian.uy/#person"
     },
     "publisher": {
-        "@type": "Person",
-        "name": "Adrián Barrera"
+        "@id": "https://adrian.uy/#website"
     },
-    "mainEntityOfPage": "https://adrian.uy/posts/bluesky-feeds",
+    "mainEntityOfPage": {
+        "@id": "https://adrian.uy/posts/bluesky-feeds#webpage"
+    },
     "image": "https://adrian.uy/img/bluesky-dashboard.png",
     "keywords": [
         "Bluesky",
@@ -60,7 +61,31 @@
         "DigitalOcean",
         "GitHub Actions",
         "Decentralized Social Networks"
-    ]
+    ],
+    "isPartOf": {
+        "@id": "https://adrian.uy/#website"
+    },
+    "inLanguage": "en"
+}
+</script>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://adrian.uy/posts/bluesky-feeds#webpage",
+    "url": "https://adrian.uy/posts/bluesky-feeds",
+    "name": "Bluesky Custom Feeds - Adrián Barrera",
+    "isPartOf": {
+        "@id": "https://adrian.uy/#website"
+    },
+    "about": {
+        "@id": "https://adrian.uy/#person"
+    },
+    "mainEntity": {
+        "@id": "https://adrian.uy/posts/bluesky-feeds#article"
+    },
+    "inLanguage": "en"
 }
 </script>
 
