@@ -16,12 +16,12 @@
 <meta property="og:image" content="https://adrian.uy/img/adrian.jpg">
 <meta property="og:image:alt" content="Adrián Barrera">
 
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://adrian.uy/posts/bluesky-handles.html">
-<meta property="twitter:title" content="Bluesky Handles and Identity Automation - Adrián Barrera">
-<meta property="twitter:description" content="A technical project post about AT Protocol handle verification, DNS TXT automation, branded Bluesky profile redirects and serverless AWS architecture.">
-<meta property="twitter:image" content="https://adrian.uy/img/adrian.jpg">
-<meta property="twitter:image:alt" content="Adrián Barrera">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://adrian.uy/posts/bluesky-handles.html">
+<meta name="twitter:title" content="Bluesky Handles and Identity Automation - Adrián Barrera">
+<meta name="twitter:description" content="A technical project post about AT Protocol handle verification, DNS TXT automation, branded Bluesky profile redirects and serverless AWS architecture.">
+<meta name="twitter:image" content="https://adrian.uy/img/adrian.jpg">
+<meta name="twitter:image:alt" content="Adrián Barrera">
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4S0SJHEYQ0"></script>
@@ -37,18 +37,19 @@
 {
     "@context": "https://schema.org",
     "@type": "TechArticle",
+    "@id": "https://adrian.uy/posts/bluesky-handles.html#article",
+    "url": "https://adrian.uy/posts/bluesky-handles.html",
     "headline": "Bluesky Handles and Identity Automation",
     "description": "A technical project post about automating Bluesky handle verification and profile redirects with AWS Lambda, Route 53, API Gateway and CloudFront.",
     "author": {
-        "@type": "Person",
-        "name": "Adrián Barrera",
-        "url": "https://adrian.uy/"
+        "@id": "https://adrian.uy/#person"
     },
     "publisher": {
-        "@type": "Person",
-        "name": "Adrián Barrera"
+        "@id": "https://adrian.uy/#website"
     },
-    "mainEntityOfPage": "https://adrian.uy/posts/bluesky-handles.html",
+    "mainEntityOfPage": {
+        "@id": "https://adrian.uy/posts/bluesky-handles.html#webpage"
+    },
     "image": "https://adrian.uy/img/adrian.jpg",
     "keywords": [
         "Bluesky",
@@ -60,7 +61,31 @@
         "API Gateway",
         "CloudFront",
         "Decentralized Identity"
-    ]
+    ],
+    "isPartOf": {
+        "@id": "https://adrian.uy/#website"
+    },
+    "inLanguage": "en"
+}
+</script>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://adrian.uy/posts/bluesky-handles.html#webpage",
+    "url": "https://adrian.uy/posts/bluesky-handles.html",
+    "name": "Bluesky Handles and Identity Automation - Adrián Barrera",
+    "isPartOf": {
+        "@id": "https://adrian.uy/#website"
+    },
+    "about": {
+        "@id": "https://adrian.uy/#person"
+    },
+    "mainEntity": {
+        "@id": "https://adrian.uy/posts/bluesky-handles.html#article"
+    },
+    "inLanguage": "en"
 }
 </script>
 
