@@ -541,6 +541,11 @@ body.dark .diagram {
     .article-hero {
         padding-top: 3.5rem;
     }
+  
+  h1 {
+    max-width: none;
+    font-size: clamp(2.5rem, 11vw, 3.5rem);
+  }
 
     .brand span:last-child,
     .theme-label {
@@ -678,7 +683,9 @@ body.dark .diagram {
             <section id="redirects" class="content-card">
                 <h2>Redirecting Subdomains to Profiles</h2>
                 <p>The second system focuses on user-facing identity links. Instead of sharing a long Bluesky profile URL, a branded subdomain can redirect directly to the matching profile.</p>
-                <p>For example, <code>adrian.bsky.uy</code> redirects to <a href="https://bsky.app/profile/adrian.bsky.uy" target="_blank" rel="noopener noreferrer">https://bsky.app/profile/adrian.bsky.uy</a>. The same pattern can work for any supported subdomain.</p>
+                <p>For example, <code>adrian.bsky.uy</code> redirects directly to
+                <a href="https://bsky.app/profile/adrian.bsky.uy" target="_blank" rel="noopener noreferrer">the corresponding Bluesky profile</a>.
+                The same pattern can work for any supported subdomain.</p>
                 <p>This creates a more memorable identity layer while keeping Bluesky as the destination profile system.</p>
 
                 <h3>Simplified redirect logic</h3>
